@@ -1,0 +1,43 @@
+.pair {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    border: 1px solid white;
+}
+
+.pair p {
+    margin-right: 5px;
+    padding: 0.5em;
+    text-align: left;
+}
+
+.pair form {
+    display: flex;
+    align-items: center;
+    width: 20em;
+}
+
+.word {
+  display: flex;
+  justify-content: flex-start;
+  width: 50%;
+}
+
+.word textarea {
+  width: 90%;
+  border-radius: 4px;
+  font-size: 0.6em;
+  padding: 1.2em 0.3em;
+}
+
+img {
+    width: 1em;
+    border-radius: 4px;
+    margin: 0.2rem;
+    padding: 0.2em;
+    color: white;
+}
+
+.icon:hover {
+    cursor: pointer;
+}
