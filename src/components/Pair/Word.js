@@ -1,6 +1,7 @@
 import React from 'react'
 import { TextareaAutosize } from '@material-ui/core';
-import Gap from './Gap'
+import GapContainer from './GapContainer'
+
 import './Pair.css'
 
 function Word(props) {
@@ -23,33 +24,6 @@ function Word(props) {
     }
   }
 
-  const getGaps = () => {
-    if (!props.type === 'gap') {
-      return
-    }
-
-    const gapWords = props.order === 'left' && props.pair.gap ?
-      props.pair.gap.words.map((item, index) => {
-        if (props.pair.gap.selected.includes(index)) {
-          return '...'
-        } else {
-          return item
-        }
-      }) :
-      props.pair.gap.selected.map(index => props.pair.gap.words[index])
-
-    if (gapWords) {
-      return gapWords.map((word, index) => {
-        return (
-          <Gap
-            key={index}
-            value={word}
-            selectGap={(e) => props.selectGap(e, props.pair.id, index, value)}
-          />
-        )
-      })
-    }
-}
 
   return (
     <div
@@ -70,7 +44,14 @@ function Word(props) {
           </div>
         }
 
-        <div className="splited">{getGaps()}</div>
+        {props.type === 'gap' &&
+          <GapContainer
+            pair={props.pair}
+            order={props.order}
+            value={value}
+            selectGap={props.selectGap}
+          />
+        }
 
       </div>
     </div>

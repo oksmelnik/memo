@@ -40,7 +40,7 @@ class App extends Component {
             pair={pair}
             state={this.state}
             setGap={() => this.setGap(pair.id)}
-            selectGap={(e, pairId, index, value) => this.selectGap(e, pairId, index, value)}
+            selectGap={(e, pairId, index) => this.selectGap(e, pairId, index)}
             onPaste={this.onPaste}
             onDelete={() => this.deleteHandler(pair.id)}
             saveChanges={this.saveChanges}
@@ -66,11 +66,7 @@ class App extends Component {
     pair[key] = e.target.value.trim()
 
     if (pair.type === 'gap') {
-        pair.gap.words = pair.left.split(' ').filter(word => {
-            if (word.length > 0) {
-                return word
-            }
-        })
+        pair.gap.words = pair.left.split(' ').filter(word => word.length > 0)
     }
 
     const pairs = [...this.state.pairs]
@@ -96,11 +92,7 @@ class App extends Component {
 
       pair.type = pair.type === 'gap'? 'words' : 'gap'
 
-      pair.gap.words = pair.left.split(' ').filter(word => {
-          if (word.length > 0) {
-              return word
-          }
-      })
+      pair.gap.words = pair.left.split(' ').filter(word => word.length > 0)
 
       const pairs = [...this.state.pairs]
       pairs[pairIndex] = pair
