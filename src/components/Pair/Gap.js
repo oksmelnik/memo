@@ -3,7 +3,9 @@ import './Pair.css'
 
 function Gap(props) {
   return (
-    <div onClick={props.selectGap}>
+    <div onClick={
+        (e) => props.selectGap(e, props.pairId, props.index)
+    }>
       {props.value}
     </div>
   )

@@ -26,7 +26,9 @@ function GapContainer(props) {
               <Gap
                 key={index}
                 value={word}
-                selectGap={(e) => props.selectGap(e, props.pair.id, index)}
+                selectGap={props.selectGap}
+                pairId={props.pair.id}
+                index={index}
               />
             )
         })

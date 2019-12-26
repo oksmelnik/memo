@@ -22,13 +22,16 @@ function Word(props) {
     }
   }
 
+  const handleChange = (e) => {
+    props.saveChanges(e, props.pair.id, props.order)
+  }
 
   return (
     <div
       className="word"
     >
       {showOriginText() &&
-        <p onClick={props.setEdit}>{props.wordValue}</p>
+        <p onClick={props.toggleEdit}>{props.wordValue}</p>
       }
 
       <div className='className="word-edit"'>
@@ -38,7 +41,7 @@ function Word(props) {
           aria-label="empty textarea"
           placeholder="Empty"
           defaultValue={props.wordValue}
-          onChange={props.onChange}/>
+          onChange={handleChange}/>
           </div>
         }
 

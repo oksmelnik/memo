@@ -39,9 +39,9 @@ class App extends Component {
             key={pair.id}
             pair={pair}
             state={this.state}
-            setGap={() => this.setGap(pair.id)}
-            selectGap={(e, pairId, index) => this.selectGap(e, pairId, index)}
-            onDelete={() => this.deleteHandler(pair.id)}
+            setGap={this.setGap}
+            selectGap={this.selectGap}
+            onDelete={this.deleteHandler}
             saveChanges={this.saveChanges}
             resizeElement
             />
@@ -73,13 +73,14 @@ class App extends Component {
     this.setState({pairs: pairs})
   }
 
-  deleteHandler = (pairIndex) => {
+  deleteHandler = (pairId) => {
+    const pairIndex = this.getPairIndex(pairId)
     const pairs = [...this.state.pairs]
     pairs.splice(pairIndex, 1)
     this.setState({pairs: pairs})
   }
 
-  setGap(id) {
+  setGap = (id) => {
 
       const pairIndex = this.getPairIndex(id)
 
@@ -97,8 +98,7 @@ class App extends Component {
 
   }
 
-  selectGap(e, pairId, index) {
-
+  selectGap = (e, pairId, index) => {
     e.preventDefault()
 
     const pairIndex = this.getPairIndex(pairId)

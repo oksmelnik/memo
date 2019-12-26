@@ -8,11 +8,15 @@ const Pair = (props) => {
 
   const [edit, setEdit] = useState(false)
 
+  const toggleEdit = () => {
+      setEdit(!edit)
+  }
+
   return (
     <div className='pair-outer'>
       {edit &&
            <button
-           onClick={props.setGap}
+           onClick={() => props.setGap(props.pair.id)}
            >
              {props.pair.type === 'gap' ? 'Word' : 'Gap'}
            </button>
@@ -28,8 +32,8 @@ const Pair = (props) => {
             wordValue={props.pair.left}
             type={props.pair.type}
             editMode={edit}
-            setEdit={() => setEdit(!edit)}
-            onChange={(e) => props.saveChanges(e, props.pair.id, 'left')}
+            toggleEdit={toggleEdit}
+            saveChanges={props.saveChanges}
             selectGap={props.selectGap}
           />
 
@@ -39,21 +43,21 @@ const Pair = (props) => {
             wordValue={props.pair.right}
             type={props.pair.type}
             editMode={edit}
-            setEdit={() => setEdit(!edit)}
-            onChange={(e) => props.saveChanges(e, props.pair.id, 'right')}
+            toggleEdit={toggleEdit}
+            saveChanges={props.saveChanges}
           />
 
            {edit &&
              <div
                 type='submit'
-                onClick={() => setEdit(!edit)}>
+                onClick={toggleEdit}>
                 <img src={checkmark} alt='save'/>
               </div>
             }
          </form>
 
         <div
-          onClick={props.onDelete}
+          onClick={() => props.onDelete(props.pair.id)}
         >
           <img src={deleteIcon} alt='delete'/>
         </div>
