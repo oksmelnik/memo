@@ -24,23 +24,20 @@ const Pair = (props) => {
         <form >
           <Word
             order='left'
-            value={props.pair.left}
             pair={props.pair}
-            selectGap={props.selectGap}
+            wordValue={props.pair.left}
             type={props.pair.type}
-            onEdit={props.setEdit}
             editMode={edit}
             setEdit={() => setEdit(!edit)}
-            onPaste={(e) => props.onPaste(e, props.pair.id, 'left')}
             onChange={(e) => props.saveChanges(e, props.pair.id, 'left')}
-
+            selectGap={props.selectGap}
           />
+
           <Word
             order='right'
             pair={props.pair}
-            value={props.pair.right}
+            wordValue={props.pair.right}
             type={props.pair.type}
-            onEdit={props.setEdit}
             editMode={edit}
             setEdit={() => setEdit(!edit)}
             onChange={(e) => props.saveChanges(e, props.pair.id, 'right')}

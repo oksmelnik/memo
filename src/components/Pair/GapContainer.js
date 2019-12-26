@@ -5,7 +5,6 @@ import './Pair.css'
 function GapContainer(props) {
 
     const getGapWords = () => {
-
       const gapWords = props.order === 'left' && props.pair.gap ?
         props.pair.gap.words.map((item, index) => {
           if (props.pair.gap.selected.includes(index)) {
