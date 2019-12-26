@@ -1,46 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Word from './Word'
 import './Pair.css'
 import checkmark from '../../icons/checkmark.svg'
 import deleteIcon from '../../icons/delete.svg'
 
-const Pair = ( props ) => {
+const Pair = (props) => {
 
-   return (
-    <div
-      className="pair"
-    >
-      <form >
-         <Word
-           value={props.pair.left}
-           onEdit={props.setEdit}
-           toggleEdit={props.toggleEdit}
-           onChange={(e) => props.saveChanges(e, props.pair.id, 'left')}
-           editMode={props.editMode}
-         />
-         <Word
-         value={props.pair.right}
-         onEdit={props.setEdit}
-         toggleEdit={props.toggleEdit}
-         onChange={(e) => props.saveChanges(e, props.pair.id, 'right')}
-         editMode={props.editMode}
-         />
+  const [edit, setEdit] = useState(false)
 
-         {props.editMode &&
-           <div
-              type='submit'
-              onClick={props.toggleEdit}>
-              <img src={checkmark} alt='save'/>
-            </div>
-          }
-       </form>
-
+  return (
+    <div className='pair-outer'>
+      {edit &&
+           <button
+           onClick={props.setGap}
+           >
+             {props.pair.type === 'gap' ? 'Word' : 'Gap'}
+           </button>
+      }
       <div
-        onClick={props.onDelete}
+        className='pair'
       >
-        <img src={deleteIcon} alt='delete'/>
-      </div>
 
+        <form >
+          <Word
+            order='left'
+            value={props.pair.left}
+            pair={props.pair}
+            selectGap={props.selectGap}
+            type={props.pair.type}
+            onEdit={props.setEdit}
+            editMode={edit}
+            setEdit={() => setEdit(!edit)}
+            onPaste={(e) => props.onPaste(e, props.pair.id, 'left')}
+            onChange={(e) => props.saveChanges(e, props.pair.id, 'left')}
+
+          />
+          <Word
+            order='right'
+            pair={props.pair}
+            value={props.pair.right}
+            type={props.pair.type}
+            onEdit={props.setEdit}
+            editMode={edit}
+            setEdit={() => setEdit(!edit)}
+            onChange={(e) => props.saveChanges(e, props.pair.id, 'right')}
+          />
+
+           {edit &&
+             <div
+                type='submit'
+                onClick={() => setEdit(!edit)}>
+                <img src={checkmark} alt='save'/>
+              </div>
+            }
+         </form>
+
+        <div
+          onClick={props.onDelete}
+        >
+          <img src={deleteIcon} alt='delete'/>
+        </div>
+
+      </div>
     </div>
   )
 }

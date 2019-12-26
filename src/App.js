@@ -10,37 +10,46 @@ class App extends Component {
       {
         id: 1,
         left: 'links',
-        right: 'left'
+        right: 'left',
+        type: 'words',
+        gap: {
+          words: [],
+          selected: []
+        }
       },
       {
         id: 2,
         left: 'apple',
-        right:'fruit'
-      },
-      {
-        id: 3,
-        left: 'tomato',
-        right:'veg'
-      },
-      {
-        id: 4,
-        left: 'rose',
-        right:'flower'
+        right:'fruit',
+        type: 'words',
+        gap: {
+          words: [],
+          selected: []
+        }
       }
     ]
   }
-  toggleEdit(e, id) {
-    e.preventDefault()
 
-    const state = [...this.state.edit]
-    const isEditing = state.findIndex(item => item === id)
-
-    if (isEditing >= 0) {
-      state.splice(isEditing, 1)
-      this.setState({edit: state})
-    } else {
-      this.setState({edit: [...state, id]})
-    }
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          {this.state.pairs.map(pair =>
+            <Pair
+            key={pair.id}
+            pair={pair}
+            state={this.state}
+            setGap={() => this.setGap(pair.id)}
+            selectGap={(e, pairId, index, value) => this.selectGap(e, pairId, index, value)}
+            onPaste={this.onPaste}
+            onDelete={() => this.deleteHandler(pair.id)}
+            saveChanges={this.saveChanges}
+            resizeElement
+            />
+          )}
+        </header>
+    </div>
+    );
   }
 
   saveChanges = (e, id, key) => {
@@ -55,6 +64,15 @@ class App extends Component {
     }
 
     pair[key] = e.target.value.trim()
+
+    if (pair.type === 'gap') {
+        pair.gap.words = pair.left.split(' ').filter(word => {
+            if (word.length > 0) {
+                return word
+            }
+        })
+    }
+
     const pairs = [...this.state.pairs]
     pairs[pairIndex] = pair
     this.setState({pairs: pairs})
@@ -66,26 +84,53 @@ class App extends Component {
     this.setState({pairs: pairs})
   }
 
+  setGap(id) {
 
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          {this.state.pairs.map(pair =>
-            <Pair
-            key={pair.id}
-            pair={pair}
-            state={this.state}
-            onDelete={() => this.deleteHandler(pair.id)}
-            toggleEdit={(e) => this.toggleEdit(e, pair.id)}
-            saveChanges={this.saveChanges}
-            editMode={this.state.edit.includes(pair.id)}
-            resizeElement
-            />
-          )}
-        </header>
-    </div>
-    );
+      const pairIndex = this.state.pairs.findIndex(p => {
+        return p.id === id
+      })
+
+      const pair = {
+        ...this.state.pairs[pairIndex]
+      }
+
+      pair.type = pair.type === 'gap'? 'words' : 'gap'
+
+      pair.gap.words = pair.left.split(' ').filter(word => {
+          if (word.length > 0) {
+              return word
+          }
+      })
+
+      const pairs = [...this.state.pairs]
+      pairs[pairIndex] = pair
+      this.setState({pairs: pairs})
+
+  }
+
+  selectGap(e, pairId, index, value) {
+
+    e.preventDefault()
+
+    const pairIndex = this.state.pairs.findIndex(p => {
+      return p.id === pairId
+    })
+
+    const pair = {
+      ...this.state.pairs[pairIndex]
+    }
+
+    if (pair.gap.selected.includes(index)) {
+      const selectedIndex = pair.gap.selected.indexOf(index)
+        pair.gap.selected.splice(selectedIndex, 1)
+    } else {
+      pair.gap.selected = [...pair.gap.selected,  index]
+    }
+
+    const pairs = [...this.state.pairs]
+    pairs[pairIndex] = pair
+
+    this.setState({pairs: pairs})
   }
 }
 
