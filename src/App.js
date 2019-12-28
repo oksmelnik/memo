@@ -5,7 +5,7 @@ import Pair from './components/Pair/Pair'
 class App extends Component {
 
   state = {
-    edit: [],
+
     pairs: [
       {
         id: 1,
@@ -39,10 +39,9 @@ class App extends Component {
             key={pair.id}
             pair={pair}
             state={this.state}
-            setGap={() => this.setGap(pair.id)}
-            selectGap={(e, pairId, index) => this.selectGap(e, pairId, index)}
-            onPaste={this.onPaste}
-            onDelete={() => this.deleteHandler(pair.id)}
+            setGap={this.setGap}
+            selectGap={this.selectGap}
+            onDelete={this.deleteHandler}
             saveChanges={this.saveChanges}
             resizeElement
             />
@@ -55,9 +54,7 @@ class App extends Component {
   saveChanges = (e, id, key) => {
     e.preventDefault()
 
-    const pairIndex = this.state.pairs.findIndex(p => {
-      return p.id === id
-    })
+    const pairIndex = this.getPairIndex(id)
 
     const pair = {
       ...this.state.pairs[pairIndex]
@@ -70,21 +67,22 @@ class App extends Component {
     }
 
     const pairs = [...this.state.pairs]
+
     pairs[pairIndex] = pair
+
     this.setState({pairs: pairs})
   }
 
-  deleteHandler = (pairIndex) => {
+  deleteHandler = (pairId) => {
+    const pairIndex = this.getPairIndex(pairId)
     const pairs = [...this.state.pairs]
     pairs.splice(pairIndex, 1)
     this.setState({pairs: pairs})
   }
 
-  setGap(id) {
+  setGap = (id) => {
 
-      const pairIndex = this.state.pairs.findIndex(p => {
-        return p.id === id
-      })
+      const pairIndex = this.getPairIndex(id)
 
       const pair = {
         ...this.state.pairs[pairIndex]
@@ -100,13 +98,10 @@ class App extends Component {
 
   }
 
-  selectGap(e, pairId, index, value) {
-
+  selectGap = (e, pairId, index) => {
     e.preventDefault()
 
-    const pairIndex = this.state.pairs.findIndex(p => {
-      return p.id === pairId
-    })
+    const pairIndex = this.getPairIndex(pairId)
 
     const pair = {
       ...this.state.pairs[pairIndex]
@@ -123,6 +118,12 @@ class App extends Component {
     pairs[pairIndex] = pair
 
     this.setState({pairs: pairs})
+  }
+
+  getPairIndex(id) {
+    return this.state.pairs.findIndex(p => {
+      return p.id === id
+    })
   }
 }
 

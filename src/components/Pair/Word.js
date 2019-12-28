@@ -6,8 +6,6 @@ import './Pair.css'
 
 function Word(props) {
 
-  const value = props.pair[props.order]
-
   const showEditFiels = () => {
     if (!props.editMode) {
       return false
@@ -24,13 +22,16 @@ function Word(props) {
     }
   }
 
+  const handleChange = (e) => {
+    props.saveChanges(e, props.pair.id, props.order)
+  }
 
   return (
     <div
       className="word"
     >
       {showOriginText() &&
-        <p onClick={props.setEdit}>{props.value}</p>
+        <p onClick={props.toggleEdit}>{props.wordValue}</p>
       }
 
       <div className='className="word-edit"'>
@@ -39,8 +40,8 @@ function Word(props) {
           <TextareaAutosize
           aria-label="empty textarea"
           placeholder="Empty"
-          defaultValue={value}
-          onChange={props.onChange}/>
+          defaultValue={props.wordValue}
+          onChange={handleChange}/>
           </div>
         }
 
@@ -48,8 +49,9 @@ function Word(props) {
           <GapContainer
             pair={props.pair}
             order={props.order}
-            value={value}
+            value={props.wordValue}
             selectGap={props.selectGap}
+            editMode={props.editMode}
           />
         }
 

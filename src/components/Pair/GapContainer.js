@@ -5,7 +5,6 @@ import './Pair.css'
 function GapContainer(props) {
 
     const getGapWords = () => {
-
       const gapWords = props.order === 'left' && props.pair.gap ?
         props.pair.gap.words.map((item, index) => {
           if (props.pair.gap.selected.includes(index)) {
@@ -27,7 +26,10 @@ function GapContainer(props) {
               <Gap
                 key={index}
                 value={word}
-                selectGap={(e) => props.selectGap(e, props.pair.id, index)}
+                selectGap={props.selectGap}
+                pairId={props.pair.id}
+                index={index}
+                editMode={props.editMode}
               />
             )
         })
