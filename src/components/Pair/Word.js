@@ -51,6 +51,7 @@ function Word(props) {
             order={props.order}
             value={props.wordValue}
             selectGap={props.selectGap}
+            editMode={props.editMode}
           />
         }
 

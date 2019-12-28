@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Word from './Word'
+import EditButton from './EditButton'
 import './Pair.css'
-import checkmark from '../../icons/checkmark.svg'
+
 import deleteIcon from '../../icons/delete.svg'
 
 const Pair = (props) => {
@@ -47,13 +48,11 @@ const Pair = (props) => {
             saveChanges={props.saveChanges}
           />
 
-           {edit &&
-             <div
-                type='submit'
-                onClick={toggleEdit}>
-                <img src={checkmark} alt='save'/>
-              </div>
-            }
+          <EditButton
+              toggleEdit={toggleEdit}
+              edit={edit}
+          />
+
          </form>
 
         <div

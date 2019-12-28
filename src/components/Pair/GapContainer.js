@@ -29,6 +29,7 @@ function GapContainer(props) {
                 selectGap={props.selectGap}
                 pairId={props.pair.id}
                 index={index}
+                editMode={props.editMode}
               />
             )
         })
