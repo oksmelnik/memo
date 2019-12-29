@@ -4,7 +4,7 @@ import './Pair.css'
 function Gap(props) {
 
   const selectGap = (e) => {
-      if (props.editMode) {
+      if (props.editMode && props.selectGap) {
           props.selectGap(e, props.pairId, props.index)
       }
   }

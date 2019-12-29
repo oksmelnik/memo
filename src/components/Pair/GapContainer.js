@@ -3,9 +3,10 @@ import Gap from './Gap'
 import './Pair.css'
 
 function GapContainer(props) {
+    const leftColumn =  props.order === 'left'
 
     const getGapWords = () => {
-      const gapWords = props.order === 'left' && props.pair.gap ?
+      const gapWords = leftColumn && props.pair.gap ?
         props.pair.gap.words.map((item, index) => {
           if (props.pair.gap.selected.includes(index)) {
             return '...'
@@ -26,7 +27,7 @@ function GapContainer(props) {
               <Gap
                 key={index}
                 value={word}
-                selectGap={props.selectGap}
+                selectGap={leftColumn && props.selectGap}
                 pairId={props.pair.id}
                 index={index}
                 editMode={props.editMode}
