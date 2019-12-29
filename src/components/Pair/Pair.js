@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import Word from './Word'
-import EditButton from './EditButton'
+import PairButton from './PairButton'
 import './Pair.css'
-
 import deleteIcon from '../../icons/delete.svg'
+import checkmarkIcon from '../../icons/checkmark.svg'
+import editIcon from '../../icons/edit.svg'
 
 const Pair = (props) => {
 
@@ -13,20 +14,24 @@ const Pair = (props) => {
       setEdit(!edit)
   }
 
+  const onDelete = () => {
+      props.onDelete(props.pair.id)
+  }
+
   return (
     <div className='pair-outer'>
       {edit &&
-           <button
-           onClick={() => props.setGap(props.pair.id)}
-           >
-             {props.pair.type === 'gap' ? 'Word' : 'Gap'}
-           </button>
+        <button className='type-switcher'
+          onClick={() => props.setGap(props.pair.id)}
+        >
+          {props.pair.type === 'gap' ? 'Word' : 'Gap'}
+        </button>
       }
       <div
         className='pair'
       >
 
-        <form >
+        <div className='words-wrapper'>
           <Word
             order='left'
             pair={props.pair}
@@ -48,18 +53,19 @@ const Pair = (props) => {
             saveChanges={props.saveChanges}
           />
 
-          <EditButton
-              toggleEdit={toggleEdit}
-              edit={edit}
+          <PairButton
+            callback={toggleEdit}
+            icon={props.edit ? editIcon : checkmarkIcon}
+            alt={props.edit ? 'edit' : 'checkmark'}
           />
 
-         </form>
+         </div>
 
-        <div
-          onClick={() => props.onDelete(props.pair.id)}
-        >
-          <img src={deleteIcon} alt='delete'/>
-        </div>
+        <PairButton
+          callback={onDelete}
+          icon={deleteIcon}
+          alt='delete'
+        />
 
       </div>
     </div>
