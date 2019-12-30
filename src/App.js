@@ -26,76 +26,62 @@ class App extends Component {
           words: [],
           selected: []
         }
+      },
+      {
+        id: 3,
+        left: 'tomato',
+        right:'veg',
+        type: 'words',
+        gap: {
+          words: [],
+          selected: []
+        }
       }
     ]
   }
 
-  render() {
-
-    return (
-      <div className="App">
-        <header className="App-header">
-          {this.state.pairs.map(pair =>
-            <Pair
-            key={pair.id}
-            pair={pair}
-            state={this.state}
-            setGap={this.setGap}
-            selectGap={this.selectGap}
-            onDelete={this.deleteHandler}
-            saveChanges={this.saveChanges}
-            resizeElement
-            />
-          )}
-        </header>
-    </div>
-    );
-  }
-
   saveChanges = (e, id, key) => {
-    e.preventDefault()
+    const newValue = e.target.value.trim()
 
-    const pairIndex = this.getPairIndex(id)
+    this.setState(state => {
+        const pairs = state.pairs.map(item => {
 
-    const pair = {
-      ...this.state.pairs[pairIndex]
-    }
+          if (item.id === id) {
+            item[key] = newValue
 
-    pair[key] = e.target.value.trim()
+            if (item.type === 'gap') {
+                item.gap.words = item.left.split(' ').filter(word => word.length > 0)
+            }
+          }
+          return item
+        })
+        return pairs
+    })
 
-    if (pair.type === 'gap') {
-        pair.gap.words = pair.left.split(' ').filter(word => word.length > 0)
-    }
-
-    const pairs = [...this.state.pairs]
-
-    pairs[pairIndex] = pair
-
-    this.setState({pairs: pairs})
   }
 
   deleteHandler = (pairId) => {
     const pairIndex = this.getPairIndex(pairId)
     const pairs = [...this.state.pairs]
+
     pairs.splice(pairIndex, 1)
     this.setState({pairs: pairs})
   }
 
   setGap = (id) => {
 
-      const pairIndex = this.getPairIndex(id)
+    this.setState(state => {
+        const pairs = state.pairs.map(item => {
+          if (item.id === id) {
+            item.type = item.type === 'gap'? 'words' : 'gap'
+            item.gap.words = item.left.split(' ').filter(word => word.length > 0)
+          }
 
-      const pair = {
-        ...this.state.pairs[pairIndex]
-      }
+          return item
+        })
 
-      pair.type = pair.type === 'gap'? 'words' : 'gap'
-
-      pair.gap.words = pair.left.split(' ').filter(word => word.length > 0)
-
-      const pairs = [...this.state.pairs]
-      pairs[pairIndex] = pair
-      this.setState({pairs: pairs})
+        return pairs
+    })
 
   }
 
@@ -126,6 +112,28 @@ class App extends Component {
       return p.id === id
     })
   }
+
+  render() {
+
+    return (
+      <div className="App">
+        <div className="App-header">
+          {this.state.pairs.map(pair => {
+            return <Pair
+              key={pair.id}
+              pair={pair}
+              setGap={this.setGap}
+              selectGap={this.selectGap}
+              onDelete={this.deleteHandler}
+              saveChanges={this.saveChanges}
+            />
+          }
+          )}
+        </div>
+    </div>
+    );
+  }
+
 }
 
 export default App;

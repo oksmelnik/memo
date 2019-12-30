@@ -18,11 +18,15 @@ const Pair = (props) => {
       props.onDelete(props.pair.id)
   }
 
+  const setGap = (e) => {
+      props.setGap(props.pair.id)
+      e.preventDefault()
+  }
+
   return (
     <div className='pair-outer'>
       {edit &&
-        <button className='type-switcher'
-          onClick={() => props.setGap(props.pair.id)}
+        <button className='type-switcher' onClick={setGap}
         >
           {props.pair.type === 'gap' ? 'Word' : 'Gap'}
         </button>
