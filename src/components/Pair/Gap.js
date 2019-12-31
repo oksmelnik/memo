@@ -1,5 +1,4 @@
 import React from 'react'
-import './Pair.css'
 
 function Gap(props) {
 

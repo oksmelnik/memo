@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import Word from './Word'
 import PairButton from './PairButton'
-import './Pair.css'
+import { StyledPair } from './styles.js'
+
 import deleteIcon from '../../icons/delete.svg'
 import checkmarkIcon from '../../icons/checkmark.svg'
 import editIcon from '../../icons/edit.svg'
+
 
 const Pair = (props) => {
 
@@ -24,7 +26,7 @@ const Pair = (props) => {
   }
 
   return (
-    <div className='pair-outer'>
+    <StyledPair>
       {edit &&
         <button className='type-switcher' onClick={setGap}
         >
@@ -72,7 +74,7 @@ const Pair = (props) => {
         />
 
       </div>
-    </div>
+    </StyledPair>
   )
 }
 export default Pair;

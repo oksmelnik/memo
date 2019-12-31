@@ -1,6 +1,6 @@
 import React from 'react'
 import Gap from './Gap'
-import './Pair.css'
+import { StyledGapsContainer } from './styles.js'
 
 function GapContainer(props) {
     const leftColumn =  props.order === 'left'
@@ -20,7 +20,7 @@ function GapContainer(props) {
     }
 
   return (
-      <div className="splited">
+      <StyledGapsContainer>
         {
           getGapWords().map((word, index) => {
             return (
@@ -35,7 +35,7 @@ function GapContainer(props) {
             )
         })
       }
-      </div>
+      </StyledGapsContainer>
   )
 }
 export default GapContainer;
