@@ -1,8 +1,7 @@
 import React from 'react'
 import { TextareaAutosize } from '@material-ui/core';
 import GapContainer from './GapContainer'
-
-import './Pair.css'
+import { StyledWord } from './styles.js'
 
 function Word(props) {
 
@@ -28,13 +27,13 @@ function Word(props) {
   }
 
   return (
-    <div className="word">
+    <StyledWord>
 
       {showOriginText() &&
         <p onClick={props.toggleEdit}>{props.wordValue}</p>
       }
 
-      <div className='className="word-edit"'>
+      <div>
         {showEditFiels() &&
           <div>
             <TextareaAutosize
@@ -57,7 +56,7 @@ function Word(props) {
         }
 
       </div>
-    </div>
+    </StyledWord>
   )
 
 }

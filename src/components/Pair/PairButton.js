@@ -1,15 +1,15 @@
 import React from 'react'
-import './Pair.css'
+import { StyledButton } from './styles.js'
 
 function PairButton(props) {
 
   return (
-    <button className="control-button" onClick={e => {
+    <StyledButton onClick={e => {
       e.preventDefault()
       props.callback(e)
     }}>
       <img src={props.icon} alt={props.alt}/>
-    </button>
+    </StyledButton>
   )
 }
 export default PairButton;
