@@ -1,7 +1,7 @@
 import React from 'react'
 import { TextareaAutosize } from '@material-ui/core';
 import GapContainer from './GapContainer'
-import { StyledWord } from './styles.js'
+import { StyledWord } from './../styles.js'
 
 function Word(props) {
 

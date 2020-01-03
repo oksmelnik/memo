@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Pair from './components/Pair/Pair'
+import Pair from './components/Pair'
 import list from './list.js'
 
 class App extends Component {
