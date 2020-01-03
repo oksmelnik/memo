@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyledButton } from './styles.js'
+import { StyledButton } from './../styles.js'
 
 function PairButton(props) {
 

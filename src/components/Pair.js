@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Word from './Word'
 import PairButton from './PairButton'
-import { StyledPair } from './styles.js'
+import { StyledPair } from './../styles.js'
 
-import deleteIcon from '../../icons/delete.svg'
-import checkmarkIcon from '../../icons/checkmark.svg'
-import editIcon from '../../icons/edit.svg'
+import deleteIcon from '../icons/delete.svg'
+import checkmarkIcon from '../icons/checkmark.svg'
+import editIcon from '../icons/edit.svg'
 
 
 const Pair = (props) => {
@@ -14,6 +14,7 @@ const Pair = (props) => {
 
   const toggleEdit = () => {
       setEdit(!edit)
+      console.log(edit)
   }
 
   const onDelete = () => {
@@ -61,8 +62,8 @@ const Pair = (props) => {
 
           <PairButton
             callback={toggleEdit}
-            icon={props.edit ? editIcon : checkmarkIcon}
-            alt={props.edit ? 'edit' : 'checkmark'}
+            icon={edit ? checkmarkIcon : editIcon}
+            alt={edit ? 'checkmark' : 'edit'}
           />
 
          </div>
