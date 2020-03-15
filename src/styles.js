@@ -29,6 +29,7 @@ const StyledGapsContainer = styled.div`
 `
 const StyledWord = styled.div`
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
     width: 50%;
     margin-left: 0.5em;
@@ -49,6 +50,10 @@ const StyledWord = styled.div`
         font-size: 0.6em;
     }
 `
+const StyledTranslation = styled.div`
+    padding-left: 5px
+`
+
 
 const StyledPair = styled.div`
 
@@ -87,5 +92,6 @@ export {
   StyledButton,
   StyledGapsContainer,
   StyledWord,
-  StyledPair
+  StyledPair,
+  StyledTranslation
 };

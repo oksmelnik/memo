@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { TextareaAutosize } from '@material-ui/core';
 import GapContainer from './GapContainer'
-import { StyledWord } from './../styles.js'
+import { StyledWord, StyledTranslation } from './../styles.js'
 
 function Word(props) {
 
@@ -10,9 +10,15 @@ function Word(props) {
       return false
     } else if (props.type === 'gap' && props.order === 'right') {
       return false
+    } else if (showTranslation()) {
+      return false
     } else {
       return true
     }
+  }
+
+  const showTranslation = () => {
+     return props.translateMode && props.order === 'right'
   }
 
   const showOriginText = () => {
@@ -22,9 +28,10 @@ function Word(props) {
   }
 
   const handleChange = (e) => {
-    props.saveChanges(e, props.pair.id, props.order)
+    props.saveChanges(e.target.value.trim(), props.pair.id, props.order)
     e.preventDefault()
   }
+
 
   return (
     <StyledWord>
@@ -56,6 +63,11 @@ function Word(props) {
         }
 
       </div>
+
+      <StyledTranslation>
+        {showTranslation() && <div>{props.translation}</div>}
+      </StyledTranslation>
+
     </StyledWord>
   )
 

@@ -9,8 +9,8 @@ class App extends Component {
     pairs: list
   }
 
-  saveChanges = (e, id, key) => {
-    const newValue = e.target.value.trim()
+  saveChanges = (newValue, id, key) => {
+
 
     this.setState(state => {
         const pairs = state.pairs.map(item => {
