@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { TextareaAutosize } from '@material-ui/core';
 import GapContainer from './GapContainer'
-import { StyledWord, StyledTranslation } from './../styles.js'
+import { StyledWord} from './../styles.js'
+import Translation from './Translation'
 
 function Word(props) {
 
@@ -64,9 +65,7 @@ function Word(props) {
 
       </div>
 
-      <StyledTranslation>
-        {showTranslation() && <div>{props.translation}</div>}
-      </StyledTranslation>
+      {showTranslation() && <Translation translation={props.translation} />}
 
     </StyledWord>
   )

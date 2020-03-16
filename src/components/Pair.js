@@ -9,7 +9,6 @@ import translateIcon from '../icons/subject.svg'
 import editIcon from '../icons/edit.svg'
 import closeIcon from '../icons/close.svg'
 
-
 import axios from 'axios'
 
 const Pair = (props) => {
@@ -19,6 +18,13 @@ const Pair = (props) => {
     const [editTranslate, setTranslate] = useState(false)
 
     const [translation, showTranslation] = useState('')
+
+    const getTranslation = () => {
+        axios.post(`https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200315T074819Z.860ff3441e541a2b.755ab0290b73192c988f313ed86169bd154d19d6&lang=en-ru&text=${props.pair.left}`)
+            .then((res) => {
+                showTranslation(res.data.text || 'error')
+            })
+    }
 
     const toggleEdit = () => {
         setEdit(!edit)
@@ -43,14 +49,6 @@ const Pair = (props) => {
 
   }
 
-  const getTranslation = () => {
-        axios.post(`https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200315T074819Z.860ff3441e541a2b.755ab0290b73192c988f313ed86169bd154d19d6&lang=en-ru&text=${props.pair.left}`)
-            .then((res) => {
-                console.log(res.data.text)
-                showTranslation(res.data.text || 'error')
-            })
-  }
-
   const onDelete = () => {
       props.onDelete(props.pair.id)
   }
@@ -59,8 +57,6 @@ const Pair = (props) => {
       props.setGap(props.pair.id)
       e.preventDefault()
   }
-
-
 
   return (
     <StyledPair>
@@ -93,7 +89,7 @@ const Pair = (props) => {
             type={props.pair.type}
             editMode={edit}
             translateMode={editTranslate}
-            translation={editTranslate && translation }
+            translation={editTranslate && translation}
             toggleEdit={toggleEdit}
             saveChanges={props.saveChanges}
           />
@@ -104,11 +100,11 @@ const Pair = (props) => {
             alt={edit ? 'checkmark' : 'edit'}
           />
 
-             <PairButton
-                callback={toggleTranslate}
-                icon={editTranslate ? closeIcon :translateIcon}
-                alt='translate'
-            />
+          <PairButton
+              callback={toggleTranslate}
+              icon={editTranslate ? closeIcon :translateIcon}
+              alt='translate'
+          />
 
          </div>
 

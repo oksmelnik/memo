@@ -11,7 +11,6 @@ class App extends Component {
 
   saveChanges = (newValue, id, key) => {
 
-
     this.setState(state => {
         const pairs = state.pairs.map(item => {
 
