@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59fd49d9-80e4-46db-b997-974c4a770f1c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Translation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Pair.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Pair.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Translation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Translation.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Word.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Word.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -74,7 +74,10 @@
       <updated>1583233828607</updated>
       <workItem from="1583233832349" duration="1060000" />
       <workItem from="1584257725722" duration="7780000" />
-      <workItem from="1584340965212" duration="1508000" />
+      <workItem from="1584340965212" duration="1983000" />
+      <workItem from="1584685406132" duration="3423000" />
+      <workItem from="1584862617896" duration="7146000" />
+      <workItem from="1585034120739" duration="1969000" />
     </task>
     <servers />
   </component>
@@ -110,5 +113,9 @@
       <screen x="0" y="23" width="1440" height="797" />
     </state>
     <state x="221" y="60" key="SettingsEditor/0.23.1440.797@0.23.1440.797" timestamp="1583237624190" />
+    <state x="397" y="211" key="run.anything.popup" timestamp="1584895118094">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state x="397" y="211" key="run.anything.popup/0.23.1440.877@0.23.1440.877" timestamp="1584895118094" />
   </component>
 </project>

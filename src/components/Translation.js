@@ -1,6 +1,5 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { StyledTranslation } from './../styles.js'
-
 
 function Translation(props) {
 
@@ -8,7 +7,6 @@ function Translation(props) {
         <StyledTranslation>
             <div>{props.translation}</div>
         </StyledTranslation>
-
     )
 }
 export default Translation;

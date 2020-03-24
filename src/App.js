@@ -10,7 +10,7 @@ class App extends Component {
   }
 
   saveChanges = (newValue, id, key) => {
-
+//https://random-word-api.herokuapp.com/word?number=10
     this.setState(state => {
         const pairs = state.pairs.map(item => {
 
@@ -90,6 +90,8 @@ class App extends Component {
             return <Pair
               key={pair.id}
               pair={pair}
+              type={pair.type}
+              left={pair.left}
               setGap={this.setGap}
               selectGap={this.selectGap}
               onDelete={this.deleteHandler}
