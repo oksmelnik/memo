@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
-import Pair from './components/Pair'
-import list from './list.js'
-import Layout from './components/Layout'
+import Pair from './../components/Pair'
+import list from './../list.js'
+import Aux from './../hoc/Aux'
 
-class App extends Component {
+class EditList extends Component {
 
   state = {
     pairs: list
@@ -85,7 +84,7 @@ class App extends Component {
   render() {
 
     return (
-        <Layout>
+        <Aux>
           <div className="App">
             <div className="App-header">
               {
@@ -103,10 +102,10 @@ class App extends Component {
               }
             </div>
            </div>
-        </Layout>
+        </Aux>
     );
   }
 
 }
 
-export default App;
+export default EditList;
