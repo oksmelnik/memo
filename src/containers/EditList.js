@@ -2,15 +2,22 @@ import React, { Component } from 'react';
 import Pair from './../components/Pair'
 import list from './../list.js'
 import Aux from './../hoc/Aux'
+import {EditControls} from './../components/EditControls/EditControls.js'
+import axios from "axios";
+import { Modal } from './../components/UI/Modal/Modal'
+import { WordsToAdd } from './../components/WordsToAdd/WordsToAdd'
+
 
 class EditList extends Component {
 
   state = {
-    pairs: list
+    pairs: list,
+    wordsFetching: false,
+    fetchedWords: []
   }
 
   saveChanges = (newValue, id, key) => {
-//https://random-word-api.herokuapp.com/word?number=10
+
     this.setState(state => {
         const pairs = state.pairs.map(item => {
 
@@ -25,7 +32,6 @@ class EditList extends Component {
         })
         return pairs
     })
-
   }
 
   deleteHandler = (pairId) => {
@@ -81,31 +87,97 @@ class EditList extends Component {
     })
   }
 
+  handleWordsAdding(e) {
+    e.preventDefault()
+    this.setState({
+      wordsFetching: true
+    })
+    this.fetchWords(e.target.getAttribute('type') === 'addOne' ? 1 : 10)
+  }
+
+  fetchWords = (number) => {
+    axios.get(`https://random-word-api.herokuapp.com/word?number=${number}`)
+        .then((res) => {
+          res.data.forEach(word => {
+              this.getTranslation(word).then(translated => {
+                if (translated !== word) {
+                  this.setState({fetchedWords: [`${word} - ${translated}`, ...this.state.fetchedWords]})
+                }
+              })
+          })
+        })
+  }
+  closeModal = () => {
+    this.setState({wordsFetching: false})
+  }
+
+  addWordsToList = () => {
+    const newWords = this.state.fetchedWords.map(word => {
+      const pair = word.split('-')
+      return {
+        id: pair[0],
+        left: pair[0],
+        right: pair[1],
+        type: 'words',
+        gap: {
+          words: [],
+          selected: []
+        }
+      }
+    })
+
+    this.setState({
+      pairs: [...newWords, ...this.state.pairs],
+      wordsFetching: false,
+      fetchedWords: []
+    })
+  }
+
+  getTranslation = (word) => {
+    return new Promise((resolve, reject) => {
+      axios.post(`https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200315T074819Z.860ff3441e541a2b.755ab0290b73192c988f313ed86169bd154d19d6&lang=en-ru&text=${word}`)
+          .then((res) =>  {
+            if (res.data.text) {
+              resolve(res.data.text[0])
+            } else {
+              reject(false)
+            }
+          })
+    })
+  }
+
   render() {
 
     return (
         <Aux>
+          <Modal show={this.state.wordsFetching} modalClosed={this.closeModal}>
+            <WordsToAdd
+                list={this.state.fetchedWords}
+                onOkClicked={this.addWordsToList}
+                onCancelClick={this.closeModal}
+            />
+          </Modal>
+
           <div className="App">
             <div className="App-header">
+              <EditControls onClick={(e) => this.handleWordsAdding(e)}/>
               {
                 this.state.pairs.map(pair => {
-                return <Pair
-                  key={pair.id}
-                  pair={pair}
-                  type={pair.type}
-                  left={pair.left}
-                  setGap={this.setGap}
-                  selectGap={this.selectGap}
-                  onDelete={this.deleteHandler}
-                  saveChanges={this.saveChanges}
+                  return <Pair
+                    pair={pair}
+                    setGap={this.setGap}
+                    selectGap={this.selectGap}
+                    onDelete={this.deleteHandler}
+                    saveChanges={this.saveChanges}
+                    getTranslation={() => this.getTranslation(pair.left)}
                 />})
               }
+
             </div>
            </div>
         </Aux>
     );
   }
-
 }
 
 export default EditList;

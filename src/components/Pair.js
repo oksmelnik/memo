@@ -1,61 +1,49 @@
 import React, { useState, useRef } from 'react';
+import PropTypes from 'prop-types'
+import axios from 'axios'
+
 import Word from './Word'
 import PairButton from './PairButton'
 import { StyledPair } from './../styles.js'
-import { StyledWord} from './../styles.js'
 import { TextareaAutosize } from '@material-ui/core';
 import GapContainer from './GapContainer'
-import Translation from './Translation'
 
 import deleteIcon from '../icons/delete.svg'
 import checkmarkIcon from '../icons/checkmark.svg'
 import translateIcon from '../icons/subject.svg'
 import editIcon from '../icons/edit.svg'
-import closeIcon from '../icons/close.svg'
 
-import axios from 'axios'
 
-const Pair = (props) => {
+const Pair = ({pair, setGap, selectGap, onDelete, saveChanges, getTranslation}) => {
 
     const [edit, setEdit] = useState(false)
 
-    const [translated, setTranslate] = useState(false)
-
     const rightEdit = useRef(null);
 
-    const getTranslation = () => {
-        axios.post(`https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200315T074819Z.860ff3441e541a2b.755ab0290b73192c988f313ed86169bd154d19d6&lang=en-ru&text=${props.pair.left}`)
-            .then((res) => {
-                rightEdit.current.value = res.data && res.data.text
-                props.saveChanges(res.data.text, props.pair.id, 'right')
-
-            })
-    }
 
     const toggleEdit = () => {
         setEdit(!edit)
     }
 
-  const toggleTranslate =() => {
-        if (!translated) {
-            getTranslation()
-        }
-      setTranslate(!translated)
-  }
+    const toggleTranslate =() => {
+        setEdit(true)
 
-  const onDelete = () => {
-      props.onDelete(props.pair.id)
-  }
+        getTranslation().then(fetchedTranslation => {
+            console.log(fetchedTranslation)
+            saveChanges(fetchedTranslation, pair.id, 'right')
+            rightEdit.current.value = fetchedTranslation
+        })
+    }
 
-  const setGap = (e) => {
-      props.setGap(props.pair.id)
+    const handleClick = (e) => {
+      setGap(pair.id)
       e.preventDefault()
-  }
+    }
 
     const showEditFields = (order) => {
         if (!edit) {
             return false
-        } else if (props.type === 'gap' && order === 'right') {
+        } else if (pair.type === 'gap' && order === 'right') {
             return false
         } else {
             return true
@@ -63,13 +51,13 @@ const Pair = (props) => {
     }
 
     const showOriginText = () => {
-        if (!edit && props.type !== 'gap') {
+        if (!edit && pair.type !== 'gap') {
             return true
         }
     }
 
     const handleWordChange = (e, order) => {
-        props.saveChanges(e.target.value.trim(), props.pair.id, order)
+        saveChanges(e.target.value.trim(), pair.id, order)
         e.preventDefault()
     }
 
@@ -80,7 +68,7 @@ const Pair = (props) => {
                     aria-label="empty textarea"
                     placeholder="Empty"
                     ref={order === 'right' ? rightEdit : null}
-                    defaultValue={order === 'left' ? props.pair.left : props.pair.right}
+                    defaultValue={order === 'left' ? pair.left : pair.right}
                     onChange={(e) => handleWordChange(e, order)}
                 />
             )
@@ -89,10 +77,10 @@ const Pair = (props) => {
 
     const returnGap = (order, value) => {
         return (<GapContainer
-            pair={props.pair}
+            pair={pair}
             order={order}
             value={value}
-            selectGap={props.selectGap}
+            selectGap={selectGap}
             editMode={edit}
         />)
     }
@@ -100,9 +88,9 @@ const Pair = (props) => {
   return (
     <StyledPair>
       {edit &&
-        <button className='type-switcher' onClick={setGap}
+        <button className='type-switcher' onClick={handleClick}
         >
-          {props.type === 'gap' ? 'Word' : 'Gap'}
+          {pair.type === 'gap' ? 'Word' : 'Gap'}
         </button>
       }
       <div
@@ -111,17 +99,17 @@ const Pair = (props) => {
 
         <div className='words-wrapper'>
           <Word
-            wordValue={showOriginText() && props.pair.left}
+            wordValue={showOriginText() && pair.left}
             toggleEdit={toggleEdit}
             textArea={returnTextArea('left')}
-            gap={props.type === 'gap' && returnGap('left', props.left)}
+            gap={pair.type === 'gap' && returnGap('left', pair.left)}
           />
 
           <Word
-            wordValue={showOriginText() && props.pair.right}
+            wordValue={showOriginText() && pair.right}
             toggleEdit={toggleEdit}
             textArea={returnTextArea('right')}
-            gap={props.type === 'gap' && returnGap('right', props.right)}
+            gap={pair.type === 'gap' && returnGap('right', pair.right)}
           />
 
           <PairButton
@@ -130,7 +118,7 @@ const Pair = (props) => {
             alt={edit ? 'checkmark' : 'edit'}
           />
 
-          {(edit && !props.pair.right) &&
+          {!pair.right &&
             <PairButton
               callback={toggleTranslate}
               icon={translateIcon}
@@ -141,7 +129,7 @@ const Pair = (props) => {
          </div>
 
         <PairButton
-          callback={onDelete}
+          callback={() => onDelete(pair.id)}
           icon={deleteIcon}
           alt='delete'
         />
@@ -149,5 +137,9 @@ const Pair = (props) => {
       </div>
     </StyledPair>
   )
+}
+
+Pair.propTypes= {
+    pair: PropTypes.array
 }
 export default React.memo(Pair);
