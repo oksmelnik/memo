@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import Aux from '../../../hoc/Aux'
 import { Backdrop } from '../Backdrop/Backdrop'
 
-
 export const Modal = (props) => {
 
     const StyledModal = styled.div`
