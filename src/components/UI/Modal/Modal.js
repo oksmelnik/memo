@@ -3,11 +3,10 @@ import styled from 'styled-components'
 import Aux from '../../../hoc/Aux'
 import { Backdrop } from '../Backdrop/Backdrop'
 
-export const Modal = (props) => {
-
-    const StyledModal = styled.div`
+const StyledModal = styled.div`
         transform: ${props => props.show ? 'translateY(0)' : 'translateY(-100hv)'};
         opacity: ${props => props.show ? '1' : '0'};
+        display: ${props => props.show ? 'block' : 'none'};
         position: fixed;
         z-index: 500;
         background-color: white;
@@ -28,8 +27,8 @@ export const Modal = (props) => {
  
       }`
 
-
-
+export const Modal = React.memo((props) => {
+console.log('modal', props)
     return (
         <Aux>
             <Backdrop show={props.show} clicked={props.modalClosed}/>
@@ -38,4 +37,6 @@ export const Modal = (props) => {
             </StyledModal>
         </Aux>
     )
-}
+},
+    (prevProps, nextProps) => (prevProps.show === nextProps.show) &&
+    prevProps.isSameModal === nextProps.isSameModal)

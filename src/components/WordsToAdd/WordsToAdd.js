@@ -7,14 +7,12 @@ const StyledList = styled.div`
 color: black;
 `
 
-
 export const WordsToAdd = ({list, onOkClicked, onCancelClicked}) => (
     <Aux>
         <StyledList>
             {
-                list.map(i => <li>{i}</li>)
+               list.map(i => <li key={i}>{i}</li>)
             }
-
                 <Button clicked={onOkClicked} color={'green'}>Ok</Button>
                 <Button clicked={onCancelClicked} color={'orange'}>Cancel</Button>
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import EditList from './containers/EditList'
-import Layout from './components/Layout'
+import Layout from './hoc/Layout'
 
 class App extends Component {
 

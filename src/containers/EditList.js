@@ -7,6 +7,8 @@ import axios from "axios";
 import { Modal } from './../components/UI/Modal/Modal'
 import { WordsToAdd } from './../components/WordsToAdd/WordsToAdd'
 
+import axiosWords from '../axios-words'
+
 
 class EditList extends Component {
 
@@ -131,6 +133,9 @@ class EditList extends Component {
       wordsFetching: false,
       fetchedWords: []
     })
+
+    axiosWords.post('/list.json', newWords)
+
   }
 
   getTranslation = (word) => {
@@ -150,7 +155,7 @@ class EditList extends Component {
 
     return (
         <Aux>
-          <Modal show={this.state.wordsFetching} modalClosed={this.closeModal}>
+          <Modal show={this.state.wordsFetching} modalClosed={this.closeModal} isSameModal={this.state.fetchedWords.length}>
             <WordsToAdd
                 list={this.state.fetchedWords}
                 onOkClicked={this.addWordsToList}
@@ -165,6 +170,7 @@ class EditList extends Component {
                 this.state.pairs.map(pair => {
                   return <Pair
                     pair={pair}
+                    key={pair.id}
                     setGap={this.setGap}
                     selectGap={this.selectGap}
                     onDelete={this.deleteHandler}

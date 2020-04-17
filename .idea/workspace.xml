@@ -2,20 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59fd49d9-80e4-46db-b997-974c4a770f1c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Logo/Logo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Navigation/NavigationItems.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Navigation/Toolbar.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/assets/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/axios-words.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/EditControls/editStyles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/EditControls/editStyles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hoc/Layout.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Navigation/NavigationItems.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navigation/NavigationItems.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Pair.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Pair.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/UI/Modal/Modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/Modal/Modal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/icons/checkmark.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/assets/checkmark.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/icons/close.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/assets/close.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/icons/delete.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/assets/delete.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/icons/edit 2.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/assets/edit 2.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/icons/edit.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/assets/edit.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/icons/subject.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/assets/subject.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/WordsToAdd/WordsToAdd.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/WordsToAdd/WordsToAdd.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/EditList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/EditList.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,23 +36,24 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.last.introduce.type" value="LET" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/components/Navigation" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.notifications" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/hoc" />
+      <recent name="$PROJECT_DIR$/src/components/assets" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/icons" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components/Navigation" />
       <recent name="$PROJECT_DIR$/src/components/assets" />
       <recent name="$PROJECT_DIR$/src/components" />
       <recent name="$PROJECT_DIR$/src/components/EditControls" />
       <recent name="$PROJECT_DIR$/src/containers" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/components/assets" />
-      <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/src/icons" />
     </key>
   </component>
   <component name="RunManager">
@@ -100,7 +97,8 @@
       <workItem from="1586236112084" duration="4051000" />
       <workItem from="1586322516602" duration="5651000" />
       <workItem from="1586412152570" duration="2516000" />
-      <workItem from="1587016011728" duration="4612000" />
+      <workItem from="1587016011728" duration="4826000" />
+      <workItem from="1587103067115" duration="3906000" />
     </task>
     <servers />
   </component>
@@ -144,6 +142,10 @@
       <screen x="0" y="23" width="1440" height="797" />
     </state>
     <state x="221" y="60" key="SettingsEditor/0.23.1440.797@0.23.1440.797" timestamp="1583237624190" />
+    <state x="833" y="455" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587107284588">
+      <screen x="0" y="23" width="1792" height="1017" />
+    </state>
+    <state x="833" y="455" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1792.1017@0.23.1792.1017" timestamp="1587107284588" />
     <state x="908" y="288" width="683" height="486" key="find.popup" timestamp="1585210112166">
       <screen x="0" y="23" width="1792" height="1017" />
     </state>
@@ -158,7 +160,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/UI/Modal/Modal.js</url>
-          <line>35</line>
+          <line>34</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

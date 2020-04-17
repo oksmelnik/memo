@@ -40,7 +40,7 @@ export const NavigationItems = props => (
         {
             props.items.map(i => {
                 return (
-                    <li>
+                    <li key={i.text}>
                         <a href={i.link}>{i.text}</a>
                     </li>
             )}

@@ -140,6 +140,6 @@ const Pair = ({pair, setGap, selectGap, onDelete, saveChanges, getTranslation}) 
 }
 
 Pair.propTypes= {
-    pair: PropTypes.array
+    pair: PropTypes.object
 }
 export default React.memo(Pair);
