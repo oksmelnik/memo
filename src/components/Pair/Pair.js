@@ -2,16 +2,16 @@ import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types'
 
 
-import Word from './Word'
+import Word from '../Word/Word'
 import PairButton from './PairButton'
-import { StyledPair } from './../styles.js'
+import { StyledPair } from '../../styles.js'
 import { TextareaAutosize } from '@material-ui/core';
-import GapContainer from './GapContainer'
+import GapContainer from '../Gap/GapContainer'
 
-import deleteIcon from './assets/delete.svg'
-import checkmarkIcon from './assets/checkmark.svg'
-import translateIcon from './assets/subject.svg'
-import editIcon from './assets/edit.svg'
+import deleteIcon from '../../assets/delete.svg'
+import checkmarkIcon from '../../assets/checkmark.svg'
+import translateIcon from '../../assets/subject.svg'
+import editIcon from '../../assets/edit.svg'
 
 
 const Pair = ({pair, setGap, selectGap, onDelete, saveChanges, getTranslation}) => {
@@ -140,6 +140,6 @@ const Pair = ({pair, setGap, selectGap, onDelete, saveChanges, getTranslation}) 
 }
 
 Pair.propTypes= {
-    pair: PropTypes.array
+    pair: PropTypes.object
 }
 export default React.memo(Pair);

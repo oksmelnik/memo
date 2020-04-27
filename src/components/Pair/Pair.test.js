@@ -2,12 +2,12 @@ import React from 'react';
 
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16'
-import list from './../list.js'
+import list from '../../list.js'
 
-import Word from './Word'
+import Word from '../Word/Word'
 import Pair from './Pair'
 import PairButton from './PairButton'
-import GapContainer from './GapContainer'
+import GapContainer from '../Gap/GapContainer'
 import checkmarkIcon from "../icons/checkmark.svg";
 import editIcon from "../icons/edit.svg";
 

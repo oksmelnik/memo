@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyledWord} from './../styles.js'
+import { StyledWord} from '../../styles.js'
 
 function Word(props) {
   return (
