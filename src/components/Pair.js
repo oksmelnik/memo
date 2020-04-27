@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types'
-import axios from 'axios'
+
 
 import Word from './Word'
 import PairButton from './PairButton'
@@ -8,10 +8,10 @@ import { StyledPair } from './../styles.js'
 import { TextareaAutosize } from '@material-ui/core';
 import GapContainer from './GapContainer'
 
-import deleteIcon from '../icons/delete.svg'
-import checkmarkIcon from '../icons/checkmark.svg'
-import translateIcon from '../icons/subject.svg'
-import editIcon from '../icons/edit.svg'
+import deleteIcon from './assets/delete.svg'
+import checkmarkIcon from './assets/checkmark.svg'
+import translateIcon from './assets/subject.svg'
+import editIcon from './assets/edit.svg'
 
 
 const Pair = ({pair, setGap, selectGap, onDelete, saveChanges, getTranslation}) => {
