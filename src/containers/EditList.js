@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import Pair from './../components/Pair'
+import Pair from '../components/Pair/Pair'
 import list from './../list.js'
 import Aux from './../hoc/Aux'
+import withErrorHandler from './../hoc/withErrorHandler/withErrorHandler'
 import {EditControls} from './../components/EditControls/EditControls.js'
 import axios from "axios";
 import { Modal } from './../components/UI/Modal/Modal'
+import { Spinner } from './../components/UI/Spinner/Spinner'
 import { WordsToAdd } from './../components/WordsToAdd/WordsToAdd'
 
 import axiosWords from '../axios-words'
@@ -13,9 +15,20 @@ import axiosWords from '../axios-words'
 class EditList extends Component {
 
   state = {
-    pairs: list,
+    pairs: [],
+    name: this.props.match.params.id,
     wordsFetching: false,
-    fetchedWords: []
+    fetchedWords: [],
+    loading: false
+  }
+
+  componentDidMount () {
+
+    axiosWords.get(`lists/${this.state.name}.json`).then(res => {
+      const data = res.data.pairs && JSON.parse(res.data.pairs)
+      const list = data ? Object.values(data).flat() : []
+      this.setState({pairs: list })
+    })
   }
 
   saveChanges = (newValue, id, key) => {
@@ -127,14 +140,14 @@ class EditList extends Component {
         }
       }
     })
-
+    const newState = [...newWords, ...this.state.pairs]
     this.setState({
-      pairs: [...newWords, ...this.state.pairs],
+      pairs: newState,
       wordsFetching: false,
       fetchedWords: []
     })
 
-    axiosWords.post('/list.json', newWords)
+   axiosWords.patch(`/lists/${this.state.name}.json`, { pairs: JSON.stringify(newState) })
 
   }
 
@@ -166,7 +179,7 @@ class EditList extends Component {
           <div className="App">
             <div className="App-header">
               <EditControls onClick={(e) => this.handleWordsAdding(e)}/>
-              {
+              {this.state.pairs.length > 0 ?
                 this.state.pairs.map(pair => {
                   return <Pair
                     pair={pair}
@@ -176,7 +189,7 @@ class EditList extends Component {
                     onDelete={this.deleteHandler}
                     saveChanges={this.saveChanges}
                     getTranslation={() => this.getTranslation(pair.left)}
-                />})
+                />}) : <Spinner />
               }
 
             </div>
@@ -186,4 +199,4 @@ class EditList extends Component {
   }
 }
 
-export default EditList;
+export default withErrorHandler(EditList, axiosWords);

@@ -2,16 +2,35 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59fd49d9-80e4-46db-b997-974c4a770f1c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/axios-words.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/List/AddList.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/List/ListItem.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/UI/Spinner/Spinner.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/UI/Spinner/Spinner.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/AllLists.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hoc/withErrorHandler/withErrorHandler.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/EditControls/editStyles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/EditControls/editStyles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hoc/Layout.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Gap.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Gap/Gap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/GapContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Gap/GapContainer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Logo/Logo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Logo/Logo.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Navigation/NavigationItems.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navigation/NavigationItems.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Pair.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Pair.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/UI/Modal/Modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/Modal/Modal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/WordsToAdd/WordsToAdd.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/WordsToAdd/WordsToAdd.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Navigation/Toolbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navigation/Toolbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Pair.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Pair/Pair.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Pair.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Pair/Pair.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/PairButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Pair/PairButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Word.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Word/Word.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/assets/checkmark.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/checkmark.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/assets/close.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/close.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/assets/delete.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/delete.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/assets/edit 2.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/edit 2.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/assets/edit.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/edit.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/assets/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/assets/subject.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/subject.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/EditList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/EditList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hoc/Layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hoc/Layout.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,10 +62,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/hoc" />
-      <recent name="$PROJECT_DIR$/src/components/assets" />
       <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/src/icons" />
+      <recent name="$PROJECT_DIR$/src/components/Word" />
+      <recent name="$PROJECT_DIR$/src/components/Gap" />
+      <recent name="$PROJECT_DIR$/src/components/Pair" />
+      <recent name="$PROJECT_DIR$/src/components" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components/Navigation" />
@@ -98,7 +118,10 @@
       <workItem from="1586322516602" duration="5651000" />
       <workItem from="1586412152570" duration="2516000" />
       <workItem from="1587016011728" duration="4826000" />
-      <workItem from="1587103067115" duration="3906000" />
+      <workItem from="1587103067115" duration="4028000" />
+      <workItem from="1587447542166" duration="3331000" />
+      <workItem from="1587618491765" duration="5460000" />
+      <workItem from="1587706313766" duration="2683000" />
     </task>
     <servers />
   </component>
@@ -142,10 +165,10 @@
       <screen x="0" y="23" width="1440" height="797" />
     </state>
     <state x="221" y="60" key="SettingsEditor/0.23.1440.797@0.23.1440.797" timestamp="1583237624190" />
-    <state x="833" y="455" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587107284588">
+    <state x="833" y="455" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587709488186">
       <screen x="0" y="23" width="1792" height="1017" />
     </state>
-    <state x="833" y="455" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1792.1017@0.23.1792.1017" timestamp="1587107284588" />
+    <state x="833" y="455" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1792.1017@0.23.1792.1017" timestamp="1587709488186" />
     <state x="908" y="288" width="683" height="486" key="find.popup" timestamp="1585210112166">
       <screen x="0" y="23" width="1792" height="1017" />
     </state>

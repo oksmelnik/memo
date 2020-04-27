@@ -17,27 +17,19 @@ const StyledToolbar = styled.header`
     padding: 0 20px;
     z-index: 90;
     box-sizing: border-box;
-    
+    width: 1200px;
+    margin: 0 auto;
+
     img {
     height: 100%;
     }
-    
+
 `
 
 export const Toolbar = props => (
     <StyledToolbar>
         <div>MENU</div>
         <Logo/>
-
-            <NavigationItems items={[
-            {
-                text: 'LINK1',
-                link: '/'
-            },
-                {
-                    text: 'LINK2',
-                    link: '/'
-                }
-        ]}/>
+            <NavigationItems />
     </StyledToolbar>
 )
