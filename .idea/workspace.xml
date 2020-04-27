@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59fd49d9-80e4-46db-b997-974c4a770f1c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Layout.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Pair.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/EditList.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hoc/Aux.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -28,21 +34,23 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.last.introduce.type" value="LET" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/components" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/containers" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.notifications" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/containers" />
       <recent name="$PROJECT_DIR$/src/components" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/src/icons" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="test" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+    <configuration name="test" type="js.build_tools.npm" temporary="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
@@ -74,6 +82,8 @@
       <workItem from="1584685406132" duration="3423000" />
       <workItem from="1584862617896" duration="7146000" />
       <workItem from="1585034120739" duration="2134000" />
+      <workItem from="1585208862220" duration="1964000" />
+      <workItem from="1585723027429" duration="1055000" />
     </task>
     <servers />
   </component>
@@ -81,6 +91,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="945" y="229" key="#test" timestamp="1585210804120">
+      <screen x="0" y="23" width="1792" height="1017" />
+    </state>
+    <state x="945" y="229" key="#test/0.23.1792.1017@0.23.1792.1017" timestamp="1585210804120" />
     <state width="1379" height="191" key="GridCell.Tab.0.bottom" timestamp="1583237813882">
       <screen x="0" y="23" width="1440" height="797" />
     </state>
@@ -109,6 +123,10 @@
       <screen x="0" y="23" width="1440" height="797" />
     </state>
     <state x="221" y="60" key="SettingsEditor/0.23.1440.797@0.23.1440.797" timestamp="1583237624190" />
+    <state x="908" y="288" width="683" height="486" key="find.popup" timestamp="1585210112166">
+      <screen x="0" y="23" width="1792" height="1017" />
+    </state>
+    <state x="908" y="288" width="683" height="486" key="find.popup/0.23.1792.1017@0.23.1792.1017" timestamp="1585210112166" />
     <state x="397" y="211" key="run.anything.popup" timestamp="1584895118094">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
