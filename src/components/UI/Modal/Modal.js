@@ -28,7 +28,6 @@ const StyledModal = styled.div`
       }`
 
 export const Modal = React.memo((props) => {
-console.log('modal', props)
     return (
         <Aux>
             <Backdrop show={props.show} clicked={props.modalClosed}/>

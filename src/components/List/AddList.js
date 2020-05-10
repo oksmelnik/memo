@@ -1,13 +1,23 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PairButton from '../Pair/PairButton'
-import deleteIcon from '../../assets/delete.svg'
+import closeIcon from '../../assets/close.svg'
 import checkmarkIcon from '../../assets/checkmark.svg'
+import addIcon from '../../assets/plus.svg'
 
 import styled from 'styled-components'
 
 const StyledForm = styled.div`
     display: flex;
+    align-items: center;
     color: white;
+    padding: 20px 0;
+    font-size: 20px;
+    border-top: solid white 2px;
+`
+const StyledInput = styled.input`
+    font-size: 22px;
+    margin: 10px;
+    width: 50%;
 `
 
 const AddList = (props) => {
@@ -27,29 +37,45 @@ const AddList = (props) => {
     }
 
     const saveChanges = () => {
-      props.saveList(inputEl.current.value)
-      inputEl.current.value = ''
+        if (inputEl.current.value.length > 0) {
+            props.saveList(inputEl.current.value)
+            setEdit(false)
+            inputEl.current.value = ''
+        }
     }
 
     return (
         <StyledForm>
-            <input
-                ref={inputEl}
-                onChange={handleChange}
-            />
 
-            {edit && <PairButton
-                callback={saveChanges}
-                icon={checkmarkIcon}
-                alt='checkmark'
-             />
+            {!edit &&
+            <PairButton
+                    callback={() => setEdit(!edit)}
+                    icon={addIcon}
+                    alt='addIcon'
+                />
+
+            }
+            Add new list
+            {edit &&
+                <>
+                <StyledInput
+                    ref={inputEl}
+                    onChange={handleChange}
+                />
+
+                    <PairButton
+                        callback={saveChanges}
+                        icon={checkmarkIcon}
+                        alt='checkmark'
+                     />
+                    <PairButton
+                        callback={onDelete}
+                        icon={closeIcon}
+                        alt='delete'
+                    />
+                </>
             }
 
-            <PairButton
-                callback={onDelete}
-                icon={deleteIcon}
-                alt='delete'
-            />
         </StyledForm>
     )
 }

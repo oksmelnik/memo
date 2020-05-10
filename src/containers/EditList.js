@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Pair from '../components/Pair/Pair'
-import list from './../list.js'
 import Aux from './../hoc/Aux'
 import withErrorHandler from './../hoc/withErrorHandler/withErrorHandler'
 import {EditControls} from './../components/EditControls/EditControls.js'
@@ -11,21 +10,27 @@ import { WordsToAdd } from './../components/WordsToAdd/WordsToAdd'
 
 import axiosWords from '../axios-words'
 
-
 class EditList extends Component {
 
   state = {
     pairs: [],
-    name: this.props.match.params.id,
+    id: this.props.match.params.id,
     wordsFetching: false,
     fetchedWords: [],
     loading: false
   }
 
   componentDidMount () {
+    this.loadData()
+  }
 
-    axiosWords.get(`lists/${this.state.name}.json`).then(res => {
-      const data = res.data.pairs && JSON.parse(res.data.pairs)
+  componentWillUnmount() {
+    axiosWords.patch(`/lists/${this.state.id}.json`, { pairs: this.state.pairs })
+  }
+
+  loadData = () => {
+    axiosWords.get(`lists/${this.state.id}.json`).then(res => {
+      const data = res.data.pairs && res.data.pairs
       const list = data ? Object.values(data).flat() : []
       this.setState({pairs: list })
     })
@@ -104,10 +109,17 @@ class EditList extends Component {
 
   handleWordsAdding(e) {
     e.preventDefault()
-    this.setState({
-      wordsFetching: true
-    })
-    this.fetchWords(e.target.getAttribute('type') === 'addOne' ? 1 : 10)
+    if (e.target.getAttribute('type') === 'addNew') {
+      const newPair = {id: 'new', left: "", right: "", type: "words"}
+      const pairs = [...this.state.pairs, newPair];
+      console.log('pairs', pairs)
+      this.setState({pairs: pairs});
+    } else {
+      this.setState({
+        wordsFetching: true
+      })
+      this.fetchWords(e.target.getAttribute('type') === 'addOne' ? 1 : 10)
+    }
   }
 
   fetchWords = (number) => {
@@ -147,7 +159,7 @@ class EditList extends Component {
       fetchedWords: []
     })
 
-   axiosWords.patch(`/lists/${this.state.name}.json`, { pairs: JSON.stringify(newState) })
+   axiosWords.patch(`/lists/${this.state.id}.json`, { pairs: newState })
 
   }
 

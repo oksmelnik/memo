@@ -4,67 +4,77 @@ import ListItem from '../components/List/ListItem'
 import axiosWords from '../axios-words'
 import Aux from './../hoc/Aux'
 import { withRouter } from 'react-router-dom'
-import { Route, Link } from 'react-router-dom'
 
 import styled from 'styled-components'
 
 const Block = styled.div`
-    padding-left: 100px;
+    padding: 20px 100px;
 `
-
 const List = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-
-    a {
-      display: flex;
-      justify-content: flex-start;
-    }
+    padding-bottom: 30px;
 `
 
 const AllLists = (props) => {
-
-    const [lists, setState] = useState([])
+    const [lists, setState] = useState({})
 
     useEffect(() => {
         axiosWords.get('lists.json').then(res => {
-          console.log(res)
-            const lists = Object.values(res.data).filter(item => item.name)
+            const lists = res.data
 
+            Object.keys(lists).forEach(key => {
+                lists[key] = {...{id: key}, ...lists[key]}
+            })
             setState(lists)
         })
     }, [])
 
     const saveList = (input) => {
-      console.log(input)
-      const data = {
-        name: input
-      }
-        axiosWords.put(`lists/${input}.json`, data).then(res => {
-           setState([{id: res.data.name, name: input, pairs: []}, ...lists])
+        axiosWords.post(`lists.json`, {name: input}).then(res => {
+            const id = res.data.name
+            const newList = {[id] : {id: id, name: input, pairs: []}}
+            console.log(newList, lists)
+            setState({...newList, ...lists})
         })
     }
 
-    const onDelete = (index, name) => {
-        const newLists = [...lists]
-        newLists.splice(index, 1)
-        setState(newLists)
-        axiosWords.delete(`lists/${name}.json`)
+    const updateList = (input, id) => {
+        console.log(lists, id)
+        const newLists = {...lists}
+        newLists[id].name = input
+        setState({...lists, ...newLists})
+        axiosWords.patch(`lists/${id}.json`, newLists[id])
+    }
+
+    const onDelete = (index, id) => {
+        const {[id]: omit, ...rest} = lists
+        setState(rest)
+        axiosWords.delete(`lists/${id}.json`)
+    }
+
+    const postSelectedHandler = ( id ) => {
+        props.history.push( '/' + id );
     }
 
     return (
         <Aux>
             <Block>
-                <AddList saveList={saveList}/>
 
                 <List>
-                    {lists && lists.map((list, index) =>
-                      <Link to={'/' + list.name}>
-                        <ListItem key={list.id} list={list} onDelete={() => onDelete(index, list.name)}/>
-                      </Link>
+                    {lists && Object.values(lists).map((list, index) => {
+
+                        return (<ListItem
+                            key={list.id}
+                            list={list}
+                            onUpdate={(input) => updateList(input, list.id)}
+                            onDelete={() => onDelete(index, list.id)}
+                            clicked={() => postSelectedHandler(list.id)}
+                        />)}
                     )}
                 </List>
+                <AddList saveList={saveList}/>
             </Block>
         </Aux>
     )

@@ -1,7 +1,5 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types'
-
-
 import Word from '../Word/Word'
 import PairButton from './PairButton'
 import { StyledPair } from '../../styles.js'
@@ -20,7 +18,6 @@ const Pair = ({pair, setGap, selectGap, onDelete, saveChanges, getTranslation}) 
 
     const rightEdit = useRef(null);
 
-
     const toggleEdit = () => {
         setEdit(!edit)
     }
@@ -29,7 +26,6 @@ const Pair = ({pair, setGap, selectGap, onDelete, saveChanges, getTranslation}) 
         setEdit(true)
 
         getTranslation().then(fetchedTranslation => {
-            console.log(fetchedTranslation)
             saveChanges(fetchedTranslation, pair.id, 'right')
             rightEdit.current.value = fetchedTranslation
         })
