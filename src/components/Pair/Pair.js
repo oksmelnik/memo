@@ -12,21 +12,24 @@ import translateIcon from '../../assets/subject.svg'
 import editIcon from '../../assets/edit.svg'
 
 
-const Pair = ({pair, setGap, selectGap, onDelete, saveChanges, getTranslation}) => {
-
-    const [edit, setEdit] = useState(false)
+const Pair = ({pair, setGap, selectGap, onDelete, updateValues, updatePair, getTranslation}) => {
+    const [edit, setEdit] = useState(pair.edit || false)
 
     const rightEdit = useRef(null);
 
     const toggleEdit = () => {
+        if (edit) {
+          updatePair(pair.id)
+        }
         setEdit(!edit)
+        pair.edit = !edit
     }
 
     const toggleTranslate =() => {
         setEdit(true)
 
         getTranslation().then(fetchedTranslation => {
-            saveChanges(fetchedTranslation, pair.id, 'right')
+            updateValues(fetchedTranslation, pair.id, 'right')
             rightEdit.current.value = fetchedTranslation
         })
     }
@@ -53,8 +56,8 @@ const Pair = ({pair, setGap, selectGap, onDelete, saveChanges, getTranslation}) 
     }
 
     const handleWordChange = (e, order) => {
-        saveChanges(e.target.value.trim(), pair.id, order)
         e.preventDefault()
+        updateValues(e.target.value.trim(), pair.id, order)
     }
 
     const returnTextArea = (order) => {

@@ -35,13 +35,11 @@ const AllLists = (props) => {
         axiosWords.post(`lists.json`, {name: input}).then(res => {
             const id = res.data.name
             const newList = {[id] : {id: id, name: input, pairs: []}}
-            console.log(newList, lists)
             setState({...newList, ...lists})
         })
     }
 
     const updateList = (input, id) => {
-        console.log(lists, id)
         const newLists = {...lists}
         newLists[id].name = input
         setState({...lists, ...newLists})
@@ -49,7 +47,9 @@ const AllLists = (props) => {
     }
 
     const onDelete = (index, id) => {
+
         const {[id]: omit, ...rest} = lists
+
         setState(rest)
         axiosWords.delete(`lists/${id}.json`)
     }

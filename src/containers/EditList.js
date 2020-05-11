@@ -36,7 +36,7 @@ class EditList extends Component {
     })
   }
 
-  saveChanges = (newValue, id, key) => {
+  updateValues = (newValue, id, key) => {
 
     this.setState(state => {
         const pairs = state.pairs.map(item => {
@@ -60,6 +60,8 @@ class EditList extends Component {
 
     pairs.splice(pairIndex, 1)
     this.setState({pairs: pairs})
+    axiosWords.patch(`/lists/${this.state.id}.json`, { pairs: pairs })
+
   }
 
   setGap = (id) => {
@@ -110,10 +112,7 @@ class EditList extends Component {
   handleWordsAdding(e) {
     e.preventDefault()
     if (e.target.getAttribute('type') === 'addNew') {
-      const newPair = {id: 'new', left: "", right: "", type: "words"}
-      const pairs = [...this.state.pairs, newPair];
-      console.log('pairs', pairs)
-      this.setState({pairs: pairs});
+        this.addPair()
     } else {
       this.setState({
         wordsFetching: true
@@ -134,6 +133,16 @@ class EditList extends Component {
           })
         })
   }
+
+  addPair = () => {
+    const newPair = {left: "", right: "", type: "words", edit: true}
+      axiosWords.post(`lists/${this.state.id}/pairs.json`, newPair).then(res => {
+           newPair.id = res.data.name
+          const newState = [...this.state.pairs, newPair];
+          this.setState({pairs: newState});
+      })
+  }
+
   closeModal = () => {
     this.setState({wordsFetching: false})
   }
@@ -161,6 +170,11 @@ class EditList extends Component {
 
    axiosWords.patch(`/lists/${this.state.id}.json`, { pairs: newState })
 
+  }
+
+  updatePair = (id) => {
+    const pair = this.state.pairs.find(x => x.id === id)
+    axiosWords.patch(`/lists/${this.state.id}/pairs/${id}.json`, pair)
   }
 
   getTranslation = (word) => {
@@ -199,7 +213,8 @@ class EditList extends Component {
                     setGap={this.setGap}
                     selectGap={this.selectGap}
                     onDelete={this.deleteHandler}
-                    saveChanges={this.saveChanges}
+                    updateValues={this.updateValues}
+                    updatePair={this.updatePair}
                     getTranslation={() => this.getTranslation(pair.left)}
                 />}) : <Spinner />
               }
