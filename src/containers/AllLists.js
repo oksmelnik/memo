@@ -4,7 +4,6 @@ import ListItem from '../components/List/ListItem'
 import axiosWords from '../axios-words'
 import Aux from './../hoc/Aux'
 import { withRouter } from 'react-router-dom'
-
 import styled from 'styled-components'
 
 const Block = styled.div`
@@ -31,12 +30,8 @@ const AllLists = (props) => {
         })
     }, [])
 
-    const saveList = (input) => {
-        axiosWords.post(`lists.json`, {name: input}).then(res => {
-            const id = res.data.name
-            const newList = {[id] : {id: id, name: input, pairs: []}}
-            setState({...newList, ...lists})
-        })
+    const saveList = (newList) => {
+        setState({...newList, ...lists})
     }
 
     const updateList = (input, id) => {
@@ -54,8 +49,8 @@ const AllLists = (props) => {
         axiosWords.delete(`lists/${id}.json`)
     }
 
-    const postSelectedHandler = ( id ) => {
-        props.history.push( '/' + id );
+    const postSelectedHandler = ( name ) => {
+        props.history.replace( '/lists/' + name );
     }
 
     return (
@@ -74,7 +69,8 @@ const AllLists = (props) => {
                         />)}
                     )}
                 </List>
-                <AddList saveList={saveList}/>
+                <AddList />
+
             </Block>
         </Aux>
     )

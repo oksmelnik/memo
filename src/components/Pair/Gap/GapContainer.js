@@ -1,6 +1,6 @@
 import React from 'react'
 import Gap from './Gap'
-import { StyledGapsContainer } from '../../styles.js'
+import { StyledGapsContainer } from '../../../styles.js'
 
 function GapContainer(props) {
     const leftColumn =  props.order === 'left'

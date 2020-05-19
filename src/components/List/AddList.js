@@ -3,7 +3,7 @@ import PairButton from '../Pair/PairButton'
 import closeIcon from '../../assets/close.svg'
 import checkmarkIcon from '../../assets/checkmark.svg'
 import addIcon from '../../assets/plus.svg'
-
+import axiosWords from '../../axios-words'
 import styled from 'styled-components'
 
 const StyledForm = styled.div`
@@ -23,6 +23,7 @@ const StyledInput = styled.input`
 const AddList = (props) => {
 
     const [edit, setEdit] = useState(false)
+    const { saveList } = props
 
     const inputEl = useRef(null)
 
@@ -38,10 +39,18 @@ const AddList = (props) => {
 
     const saveChanges = () => {
         if (inputEl.current.value.length > 0) {
-            props.saveList(inputEl.current.value)
-            setEdit(false)
-            inputEl.current.value = ''
-        }
+          const name = inputEl.current.value
+
+          axiosWords.post(`lists.json`, {name: name}).then(res => {
+              const id = res.data.name
+              const newList = {[id] : {id, name, pairs: []}}
+              !!saveList && saveList(newList)
+              inputEl.current.value = ''
+              setEdit(false)
+          }).then(() => {
+
+        })
+      }
     }
 
     return (

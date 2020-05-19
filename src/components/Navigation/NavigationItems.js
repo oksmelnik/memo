@@ -40,8 +40,8 @@ export const NavigationItems = props => (
     <NavLink key='home' exact to='/'>
       HOME
     </NavLink>
-    <NavLink key='list' to='/lists'>
-      LISTS
+    <NavLink key='list' to='/new-list'>
+      New List
     </NavLink>
   </StyledItem>
 )
