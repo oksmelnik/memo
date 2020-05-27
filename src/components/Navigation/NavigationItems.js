@@ -43,5 +43,11 @@ export const NavigationItems = props => (
     <NavLink key='list' to='/new-list'>
       New List
     </NavLink>
+    <NavLink key='profile' to='/profile'>
+      Profile
+    </NavLink>
+    <NavLink key='auth' to='/auth'>
+      Log In
+    </NavLink>
   </StyledItem>
 )
