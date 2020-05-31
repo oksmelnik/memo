@@ -10,22 +10,27 @@ export const initialState = {
 };
 
 export function reducer (state = initialState, { type, payload }) {
-console.log('payload', payload, type)
+console.log('payload reducers', payload, type)
 
   switch (type) {
     case actions.AUTH_START:
       return {...state, loading: true}
     case actions.AUTH_SUCCESS:
       return {...state, ...{
-        token: payload.token,
-        userId: payload.userId,
+        token: payload.idToken,
+        userId: payload.localId,
         error: null,
         loading: false,
       }}
     case actions.AUTH_FAIL:
       return {...state, ...{
         loading: false,
-        error: payload.error
+        error: payload.error.message
+      }}
+    case actions.LOG_OUT:
+      return {...state, ...{
+        token: null,
+        userId: null
       }}
     default:
       return state;

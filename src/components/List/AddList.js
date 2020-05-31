@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import PairButton from '../Pair/PairButton'
 import Input from "./../Input/Input"
 import closeIcon from '../../assets/close.svg'
@@ -6,6 +6,7 @@ import checkmarkIcon from '../../assets/checkmark.svg'
 import addIcon from '../../assets/plus.svg'
 import axiosWords from '../../axios-words'
 import styled from 'styled-components'
+import { AuthContext } from './../../services/AuthContext'
 
 const StyledForm = styled.div`
     display: flex;
@@ -26,6 +27,7 @@ const AddList = (props) => {
     const [edit, setEdit] = useState(false)
     const [input, setInput] = useState('')
     const { saveList } = props
+    const { authState: {userId, token}} = useContext(AuthContext);
 
     const handleChange = (input) => {
       if (input.target.value > 0) {
@@ -43,7 +45,7 @@ const AddList = (props) => {
         if (input.length > 0) {
           const name = input
 
-          axiosWords.post(`lists.json`, {name: name}).then(res => {
+          axiosWords.post(`lists.json?auth=${token}`, {name: name, userId: userId}).then(res => {
               const id = res.data.name
               const newList = {[id] : {id, name, pairs: []}}
               !!saveList && saveList(newList)
