@@ -1,6 +1,7 @@
-import React from 'react'
+import React,  { useContext } from 'react'
 import { NavLink} from 'react-router-dom'
 import styled from 'styled-components'
+import { AuthContext } from './../../services/AuthContext'
 
 const StyledItem = styled.ul`
     margin: 0;
@@ -32,16 +33,26 @@ const StyledItem = styled.ul`
         border-bottom: 4px solid red;
         color: white;
     }
-
 `
 
-export const NavigationItems = props => (
+export const NavigationItems = props => {
+  const { authState } = useContext(AuthContext);
+
+  return (
   <StyledItem>
     <NavLink key='home' exact to='/'>
       HOME
     </NavLink>
-    <NavLink key='list' to='/lists'>
-      LISTS
+    <NavLink key='list' to='/new-list'>
+      New List
     </NavLink>
+    <NavLink key='profile' to='/profile'>
+      Profile
+    </NavLink>
+      {
+        authState.token ? <NavLink key='auth' to='/logout'>Log Out</NavLink> :
+          <NavLink key='auth' to='/auth'>Log In</NavLink>
+      }
   </StyledItem>
 )
+}

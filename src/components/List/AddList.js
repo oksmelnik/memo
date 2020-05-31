@@ -1,10 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import PairButton from '../Pair/PairButton'
+import Input from "./../Input/Input"
 import closeIcon from '../../assets/close.svg'
 import checkmarkIcon from '../../assets/checkmark.svg'
 import addIcon from '../../assets/plus.svg'
-
+import axiosWords from '../../axios-words'
 import styled from 'styled-components'
+import { AuthContext } from './../../services/AuthContext'
 
 const StyledForm = styled.div`
     display: flex;
@@ -23,25 +25,34 @@ const StyledInput = styled.input`
 const AddList = (props) => {
 
     const [edit, setEdit] = useState(false)
-
-    const inputEl = useRef(null)
+    const [input, setInput] = useState('')
+    const { saveList } = props
+    const { authState: {userId, token}} = useContext(AuthContext);
 
     const handleChange = (input) => {
-        if (input.target.value.length > 0) {
-            setEdit(true)
-        }
+      if (input.target.value > 0) {
+        setEdit(true)
+      }
+
+      setInput(input.target.value)
     }
 
     const onDelete = () => {
-        inputEl.current.value = ''
+      setInput('')
     }
 
     const saveChanges = () => {
-        if (inputEl.current.value.length > 0) {
-            props.saveList(inputEl.current.value)
-            setEdit(false)
-            inputEl.current.value = ''
-        }
+        if (input.length > 0) {
+          const name = input
+
+          axiosWords.post(`lists.json?auth=${token}`, {name: name, userId: userId}).then(res => {
+              const id = res.data.name
+              const newList = {[id] : {id, name, pairs: []}}
+              !!saveList && saveList(newList)
+              setInput('')
+              setEdit(false)
+          })
+      }
     }
 
     return (
@@ -56,11 +67,13 @@ const AddList = (props) => {
 
             }
             Add new list
-            {edit &&
+            {!edit &&
                 <>
-                <StyledInput
-                    ref={inputEl}
-                    onChange={handleChange}
+                <Input
+                    elementType='input'
+                    type="text"
+                    value={input}
+                    handleChange={handleChange}
                 />
 
                     <PairButton

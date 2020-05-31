@@ -10,7 +10,7 @@ const StyledButton = styled.button`
     font: inherit;
     padding: 10px;
     margin: 10px;
-    width: 40px;
+    width: 100px;
     font-weight: bold;
     color: ${props => props.color}
     z-index: 400;

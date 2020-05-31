@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { Logo } from '../Logo/Logo'
 import { NavigationItems } from './NavigationItems'
 
-
 const StyledToolbar = styled.header`
     width: 100%;
     height: 60px;
@@ -19,17 +18,16 @@ const StyledToolbar = styled.header`
     box-sizing: border-box;
     width: 1200px;
     margin: 0 auto;
+    position: sticky
 
     img {
     height: 100%;
     }
-
 `
 
 export const Toolbar = props => (
     <StyledToolbar>
-        <div>MENU</div>
+        <NavigationItems />
         <Logo/>
-            <NavigationItems />
     </StyledToolbar>
 )

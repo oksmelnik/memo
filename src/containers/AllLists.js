@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import AddList from '../components/List/AddList'
 import ListItem from '../components/List/ListItem'
+import { AuthContext } from './../services/AuthContext'
 import axiosWords from '../axios-words'
 import Aux from './../hoc/Aux'
 import { withRouter } from 'react-router-dom'
-
 import styled from 'styled-components'
 
 const Block = styled.div`
@@ -19,9 +19,11 @@ const List = styled.div`
 
 const AllLists = (props) => {
     const [lists, setState] = useState({})
+    const { authState: { token, userId }, dispatch } = useContext(AuthContext);
 
     useEffect(() => {
-        axiosWords.get('lists.json').then(res => {
+        const params = `?auth=${token}&orderBy="userId"&equalTo="${userId}"`
+        axiosWords.get(`lists.json${params}`).then(res => {
             const lists = res.data
 
             Object.keys(lists).forEach(key => {
@@ -29,33 +31,29 @@ const AllLists = (props) => {
             })
             setState(lists)
         })
-    }, [])
+    }, [token])
 
-    const saveList = (input) => {
-        axiosWords.post(`lists.json`, {name: input}).then(res => {
-            const id = res.data.name
-            const newList = {[id] : {id: id, name: input, pairs: []}}
-            console.log(newList, lists)
-            setState({...newList, ...lists})
-        })
+    const saveList = (newList) => {
+        setState({...newList, ...lists})
     }
 
     const updateList = (input, id) => {
-        console.log(lists, id)
         const newLists = {...lists}
         newLists[id].name = input
         setState({...lists, ...newLists})
-        axiosWords.patch(`lists/${id}.json`, newLists[id])
+        axiosWords.patch(`lists/${id}.json?auth=${token}`, newLists[id])
     }
 
     const onDelete = (index, id) => {
+
         const {[id]: omit, ...rest} = lists
+
         setState(rest)
-        axiosWords.delete(`lists/${id}.json`)
+        axiosWords.delete(`lists/${id}.json?auth=${token}`)
     }
 
-    const postSelectedHandler = ( id ) => {
-        props.history.push( '/' + id );
+    const postSelectedHandler = ( name ) => {
+        props.history.replace( '/lists/' + name );
     }
 
     return (
@@ -74,7 +72,8 @@ const AllLists = (props) => {
                         />)}
                     )}
                 </List>
-                <AddList saveList={saveList}/>
+                <AddList />
+
             </Block>
         </Aux>
     )

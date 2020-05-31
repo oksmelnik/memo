@@ -1,5 +1,6 @@
 import React, {useState, useRef} from 'react';
 import styled from 'styled-components'
+import Input from "./../Input/Input"
 import deleteIcon from '../../assets/delete.svg'
 import editIcon from '../../assets/edit.svg'
 import PairButton from '../Pair/PairButton'
@@ -17,12 +18,6 @@ const StyledDiv = styled.div`
     width: 50%;
 `
 
-const StyledInput = styled.input`
-    font-size: 22px;
-    padding 10px;
-    width: 50%;
-`
-
 const ListItem = (props) => {
     const [edit, setEdit] = useState(false)
     const name = props.list.name
@@ -37,24 +32,24 @@ const ListItem = (props) => {
     }
   }
   return (
-      <StyledItem>
-        {edit && <StyledInput ref={inputValue} defaultValue={name}/>}
+    <StyledItem>
+      {edit && <Input ref={inputValue} defaultValue={name}/>}
 
-        {!edit && <StyledDiv onClick={props.clicked}>{name}</StyledDiv>}
-        <PairButton
-            callback={handleEdit}
-            icon={editIcon}
-            alt='edit'
-        />
+      {!edit && <StyledDiv onClick={props.clicked}>{name}</StyledDiv>}
+      <PairButton
+          callback={handleEdit}
+          icon={editIcon}
+          alt='edit'
+      />
 
-        <PairButton
-            callback={props.onDelete}
-            icon={deleteIcon}
-            alt='delete'
-        />
+      <PairButton
+          callback={props.onDelete}
+          icon={deleteIcon}
+          alt='delete'
+      />
 
-        </StyledItem>
-      )
+      </StyledItem>
+    )
 }
 
 export default ListItem

@@ -1,34 +1,50 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types'
-import Word from '../Word/Word'
+import Word from './Word/Word'
 import PairButton from './PairButton'
 import { StyledPair } from '../../styles.js'
 import { TextareaAutosize } from '@material-ui/core';
-import GapContainer from '../Gap/GapContainer'
+import GapContainer from './Gap/GapContainer'
+import axios from "axios";
 
 import deleteIcon from '../../assets/delete.svg'
 import checkmarkIcon from '../../assets/checkmark.svg'
 import translateIcon from '../../assets/subject.svg'
 import editIcon from '../../assets/edit.svg'
 
-
-const Pair = ({pair, setGap, selectGap, onDelete, saveChanges, getTranslation}) => {
-
-    const [edit, setEdit] = useState(false)
+const Pair = ({pair, selectGap, onDelete, updateValues, updatePair, setPair}) => {
+    const [edit, setEdit] = useState(pair.edit || false)
 
     const rightEdit = useRef(null);
 
     const toggleEdit = () => {
+        if (edit) {
+          updatePair(pair.id)
+        }
         setEdit(!edit)
+        pair.edit = !edit
     }
 
     const toggleTranslate =() => {
         setEdit(true)
 
-        getTranslation().then(fetchedTranslation => {
-            saveChanges(fetchedTranslation, pair.id, 'right')
+        getTranslation(pair.left).then(fetchedTranslation => {
+            updateValues(fetchedTranslation, pair.id, 'right')
             rightEdit.current.value = fetchedTranslation
         })
+    }
+
+    const getTranslation = (word) => {
+      return new Promise((resolve, reject) => {
+        axios.post(`https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200315T074819Z.860ff3441e541a2b.755ab0290b73192c988f313ed86169bd154d19d6&lang=en-ru&text=${word}`)
+            .then((res) =>  {
+              if (res.data.text) {
+                resolve(res.data.text[0])
+              } else {
+                reject(false)
+              }
+            })
+      })
     }
 
     const handleClick = (e) => {
@@ -53,8 +69,8 @@ const Pair = ({pair, setGap, selectGap, onDelete, saveChanges, getTranslation}) 
     }
 
     const handleWordChange = (e, order) => {
-        saveChanges(e.target.value.trim(), pair.id, order)
         e.preventDefault()
+        updateValues(e.target.value.trim(), pair.id, order)
     }
 
     const returnTextArea = (order) => {
@@ -80,6 +96,14 @@ const Pair = ({pair, setGap, selectGap, onDelete, saveChanges, getTranslation}) 
             editMode={edit}
         />)
     }
+
+    const setGap = (id) => {
+      const newPair = pair
+      newPair.type = newPair.type === 'gap'? 'words' : 'gap'
+      newPair.gap = newPair.gap || {}
+      newPair.gap.words = newPair.left.split(' ').filter(word => word.length > 0)
+      setPair(newPair)
+  }
 
   return (
     <StyledPair>

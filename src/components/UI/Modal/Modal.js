@@ -18,13 +18,14 @@ const StyledModal = styled.div`
         top: 40%;
         box-sizing: border-box;
         transition: all 0.3s ease-out;
+        color: black;
         }
         @media (min-width: 600px) {
         .Modal {
             width: 500px;
             left: calc(50% - 250px);
         }
- 
+
       }`
 
 export const Modal = React.memo((props) => {
