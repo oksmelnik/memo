@@ -6,6 +6,7 @@ import axios from 'axios'
 import { AuthContext } from './../../services/AuthContext'
 import { Spinner } from "./../../components/UI/Spinner/Spinner"
 import { Redirect } from 'react-router-dom'
+import { isValidForm, isValidField }  from './../../shared/utils'
 
 const Block = styled.div`
     padding: 20px 100px;
@@ -40,35 +41,9 @@ const Auth = (props) => {
       const updatedForm = {...formState}
       const updatedField = {...updatedForm[id]}
       updatedForm[id].value = e.target.value
-      updatedForm[id].valid = isValidField(id, e.target.value)
+      updatedForm[id].valid = isValidField(id, e.target.value, formState)
 
       setState(updatedForm)
-    }
-
-    const isValidField = (id, value) => {
-      const trimmedValue = value ? value.trim(' ') : ''
-      let isValid = true
-      const field  = formState[id]
-
-      if (trimmedValue) {
-        if (field.rules) {
-          isValid = trimmedValue.length >= field.rules.minLength && isValid
-        }
-      } else if (field.required) {
-        isValid = false
-      }
-
-      return isValid
-    }
-
-    const isValidForm = (formState) => {
-      let isValid = true
-
-      Object.values(formState).forEach(item => {
-        isValid = isValidField(item.id, item.value) && isValid
-      })
-
-      return isValid
     }
 
     const formToArray = (form) => {

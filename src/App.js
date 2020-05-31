@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import './App.css';
 import AllLists from './containers/AllLists'
-import Auth  from './containers/Auth/Auth'
 import Logout  from './containers/Auth/Logout'
 import Profile from './containers/Profile'
 import Layout from './hoc/Layout'
 import { AuthContext } from './services/AuthContext'
-
 import asyncComponent from './hoc/asyncComponent'
 
 const asyncNewList = asyncComponent(() => {
@@ -15,6 +13,10 @@ const asyncNewList = asyncComponent(() => {
 })
 const asyncList = asyncComponent(() => {
   return import('./containers/List')
+})
+
+const asyncAuth = asyncComponent(() => {
+  return import('./containers/Auth/Auth')
 })
 
 class App extends Component {
@@ -28,34 +30,35 @@ class App extends Component {
   render() {
     const { authState } = this.context
     const isAuthenticated = Boolean(authState.token)
-    console.log('isAuthenticated', isAuthenticated)
     let routes
 
     if (isAuthenticated) {
       routes = (
-        <>
-        <Route path="/auth" exact component={Auth} />
-        <Route path="/logout" component={Logout} />
-        <Route path="/lists" exact component={AllLists} />
-        <Route path="/lists/:id" component={asyncList} />
-        <Route path="/new-list" component={asyncNewList} />
-        <Route path="/profile" component={Profile} />
-        <Route path="/" exact component={AllLists} />
-        </>
+        <Switch>
+          <Route path="/auth" exact component={asyncAuth} />
+          <Route path="/logout" component={Logout} />
+          <Route path="/lists" exact component={AllLists} />
+          <Route path="/lists/:id" component={asyncList} />
+          <Route path="/new-list" component={asyncNewList} />
+          <Route path="/profile" component={Profile} />
+          <Route path="/" exact component={AllLists} />
+          <Route render={() => <h3>Not fount</h3>} />
+        </Switch>
       )
     } else {
-        routes = (<Route path="/auth" exact component={Auth} />)
+        routes = (
+          <Switch>
+            <Route path="/auth" exact component={asyncAuth} />
+            <Redirect to="/auth" />
+            <Route render={() => <h3>Not fount</h3>} />
+          </Switch>
+        )
     }
-
 
     return (
         <BrowserRouter>
               <Layout>
-              <Switch>
                   {routes}
-                  <Route render={() => <h3>Not fount</h3>} />
-              </Switch>
-
               </Layout>
         </BrowserRouter>
     );

@@ -13,27 +13,32 @@ import EditList from "./EditList"
 import Practice from "./Practice"
 import axiosWords from '../axios-words'
 import { Route, withRouter } from 'react-router-dom';
+import { AuthContext } from './../services/AuthContext'
 
 class List extends Component {
+
+  static contextType = AuthContext
+
+  componentDidMount () {
+    const { authState } = this.context
+    this.setState()
+    this.loadData({loading: true})
+  }
 
   state = {
     pairs: [],
     loading: true,
     id: this.props.match.params.id,
-    action: this.props.match.params.action
-  }
-
-  componentDidMount () {
-    this.setState()
-    this.loadData({loading: true})
+    action: this.props.match.params.action,
+    params: `?auth=${this.context.authState.token}`
   }
 
   componentWillUnmount() {
-    axiosWords.patch(`/lists/${this.state.id}.json`, { pairs: this.state.pairs })
+    axiosWords.patch(`/lists/${this.state.id}.json${this.state.params}`, { pairs: this.state.pairs })
   }
 
   loadData = () => {
-    axiosWords.get(`lists/${this.state.id}.json`).then(res => {
+    axiosWords.get(`lists/${this.state.id}.json${this.state.params}`).then(res => {
 
       if (res.data) {
         const data = res.data.pairs && res.data.pairs
@@ -55,7 +60,6 @@ class List extends Component {
             item[key] = newValue
 
             if (item.type === 'gap') {
-                console.log(item)
                 item.gap.words = item.left.split(' ').filter(word => word.length > 0)
             }
           }
@@ -71,7 +75,7 @@ class List extends Component {
 
     pairs.splice(pairIndex, 1)
     this.setState({pairs: pairs})
-    axiosWords.patch(`/lists/${this.state.id}.json`, { pairs: pairs })
+    axiosWords.patch(`/lists/${this.state.id}.json${this.state.params}`, { pairs: pairs })
 
   }
 
@@ -113,12 +117,12 @@ class List extends Component {
 
   updatePair = (id) => {
     const pair = this.state.pairs.find(x => x.id === id)
-    axiosWords.patch(`/lists/${this.state.id}/pairs/${id}.json`, pair)
+    axiosWords.patch(`/lists/${this.state.id}/pairs/${id}.json${this.state.params}`, pair)
   }
 
   render() {
     const { history } = this.props
-console.log(this.props.match.params)
+
     return (
       <Aux>
          <ListsNavigationItems
@@ -143,6 +147,7 @@ console.log(this.props.match.params)
                     onDelete={this.deleteHandler}
                     updateValues={this.updateValues}
                     updatePair={this.updatePair}
+                    params={this.state.params}
                     />
                 </div>
               </div>

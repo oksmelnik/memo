@@ -37,18 +37,18 @@ const StyledItem = styled.ul`
 
 export const ListsNavigationItems = withRouter((props) => {
   const { name, id, action } = props
-  console.log('action', props.match.params)
+
   return (
     <StyledItem>
     <NavLink key='list' exact to='/lists'>
       ALL LISTS /
     </NavLink>
-    <NavLink key={`list-${23}`}  to={`/lists/${id}`}>
+    <NavLink key={`list-${id}`}  to={`/lists/${id}`}>
       {props.name}
     </NavLink>
     {
       props.action &&
-        <NavLink key={`list-${23}`}  to={`/lists/${id}/${action}`}>
+        <NavLink key={`list-${id}`}  to={`/lists/${id}/${action}`}>
           {action}
         </NavLink>
     }

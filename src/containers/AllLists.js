@@ -19,7 +19,7 @@ const List = styled.div`
 
 const AllLists = (props) => {
     const [lists, setState] = useState({})
-    const { authState: { token, userId }, dispatch } = useContext(AuthContext);
+    const { authState: { token, userId }} = useContext(AuthContext);
 
     useEffect(() => {
         const params = `?auth=${token}&orderBy="userId"&equalTo="${userId}"`
@@ -72,7 +72,7 @@ const AllLists = (props) => {
                         />)}
                     )}
                 </List>
-                <AddList />
+                <AddList saveList={saveList}/>
 
             </Block>
         </Aux>

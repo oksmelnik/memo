@@ -12,7 +12,7 @@ import checkmarkIcon from '../../assets/checkmark.svg'
 import translateIcon from '../../assets/subject.svg'
 import editIcon from '../../assets/edit.svg'
 
-const Pair = ({pair, selectGap, onDelete, updateValues, updatePair, setPair}) => {
+const Pair = ({pair, selectGap, onDelete, updateValues, updatePair, setPair, getTranslation}) => {
     const [edit, setEdit] = useState(pair.edit || false)
 
     const rightEdit = useRef(null);
@@ -32,19 +32,6 @@ const Pair = ({pair, selectGap, onDelete, updateValues, updatePair, setPair}) =>
             updateValues(fetchedTranslation, pair.id, 'right')
             rightEdit.current.value = fetchedTranslation
         })
-    }
-
-    const getTranslation = (word) => {
-      return new Promise((resolve, reject) => {
-        axios.post(`https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200315T074819Z.860ff3441e541a2b.755ab0290b73192c988f313ed86169bd154d19d6&lang=en-ru&text=${word}`)
-            .then((res) =>  {
-              if (res.data.text) {
-                resolve(res.data.text[0])
-              } else {
-                reject(false)
-              }
-            })
-      })
     }
 
     const handleClick = (e) => {

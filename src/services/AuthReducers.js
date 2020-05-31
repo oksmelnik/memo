@@ -1,4 +1,3 @@
-import React from "react";
 import { actions } from './authActions'
 
 export const initialState = {
@@ -10,7 +9,6 @@ export const initialState = {
 };
 
 export function reducer (state = initialState, { type, payload }) {
-console.log('payload reducers', payload, type)
 
   switch (type) {
     case actions.AUTH_START:

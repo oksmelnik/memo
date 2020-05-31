@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import PairButton from '../Pair/PairButton'
 import Input from "./../Input/Input"
 import closeIcon from '../../assets/close.svg'
@@ -16,12 +16,6 @@ const StyledForm = styled.div`
     font-size: 20px;
     border-top: solid white 2px;
 `
-const StyledInput = styled.input`
-    font-size: 22px;
-    margin: 10px;
-    width: 50%;
-`
-
 const AddList = (props) => {
 
     const [edit, setEdit] = useState(false)
