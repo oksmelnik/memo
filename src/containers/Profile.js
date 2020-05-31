@@ -1,23 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Aux from './../hoc/Aux'
 import { withRouter } from 'react-router-dom'
-import styled from 'styled-components'
+import { Button } from "./../components/UI/Button/Button"
 import Input from "./../components/Input/Input"
 import axiosWords from '../axios-words'
 import { isValidForm, isValidField }  from './../shared/utils'
 import { AuthContext } from './../services/AuthContext'
-
-const Block = styled.div`
-    padding: 20px 100px;
-`
-
-const Button = styled.button`
-    padding: 20px 100px;
-    color: white;
-    background-color: darkgrey;
-    margin: 20px 40%;
-    border-radius: 4px;
-`
+import { CenterForm } from './../shared/elements/CenterForm'
 
 const Profile = (props) => {
 
@@ -30,7 +19,6 @@ const Profile = (props) => {
         rules: {minLength: 2},
         value: '',
         valid: true,
-        required: true,
         id: "name"
       },
       email: {
@@ -51,7 +39,7 @@ const Profile = (props) => {
   }
 
   const [state, setState] = useState(form)
-  const { authState: { token, userId }} = useContext(AuthContext);
+  const { authState: { userId }} = useContext(AuthContext);
 
   useEffect(() => {
       axiosWords.get(`profile/${userId}.json`).then(res => {
@@ -84,11 +72,7 @@ const Profile = (props) => {
 
     if (isValidForm(state)) {
         setState(state)
-        const newProfile = Object.keys(state).map(key => {
-            const updatedField = {...state[key]}
-            return {[key]: updatedField.value}
-        })
-
+  
         const profileDate = {}
         Object.keys(state).forEach(key => profileDate[key] = state[key].value)
 
@@ -100,16 +84,18 @@ const Profile = (props) => {
 
 
     return (
-        <Aux>
-            <Block>
-            <form onSubmit={submitProfile}>
-              {formToArray(state).map(input => (
+      <Aux>
+        <CenterForm>
+          <form onSubmit={submitProfile}>
+            {
+              formToArray(state).map(input => (
                 <Input {...input} key={input.id} handleChange={inputChanged}/>
-              ))}
-              <Button disabled={!isValidForm(state)} btnType="Success">Submitt</Button>
+              ))
+            }
+            <Button disabled={!isValidForm(state)} color="black" btnType="Success">Submitt</Button>
             </form>
-            </Block>
-        </Aux>
+        </CenterForm>
+      </Aux>
     )
 }
 

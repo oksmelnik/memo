@@ -31,7 +31,7 @@ const AllLists = (props) => {
             })
             setState(lists)
         })
-    }, [token])
+    }, [userId, token])
 
     const saveList = (newList) => {
         setState({...newList, ...lists})
@@ -59,7 +59,7 @@ const AllLists = (props) => {
     return (
         <Aux>
             <Block>
-
+              <h1>All your lists</h1>
                 <List>
                     {lists && Object.values(lists).map((list, index) => {
 

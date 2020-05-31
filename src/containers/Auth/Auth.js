@@ -1,16 +1,11 @@
 import React, { useState, useContext } from 'react';
 import Input from "./../../components/Input/Input"
 import { Button } from "./../../components/UI/Button/Button"
-import styled from 'styled-components'
-import axios from 'axios'
 import { AuthContext } from './../../services/AuthContext'
-import { Spinner } from "./../../components/UI/Spinner/Spinner"
+import { RedSpinner } from "./../../components/UI/Spinner/RedSpinner"
 import { Redirect } from 'react-router-dom'
 import { isValidForm, isValidField }  from './../../shared/utils'
-
-const Block = styled.div`
-    padding: 20px 100px;
-`
+import { CenterForm } from './../../shared/elements/CenterForm'
 
 const formFields = {
     email: {
@@ -35,11 +30,10 @@ const formFields = {
 const Auth = (props) => {
     const { authState, signUp} = useContext(AuthContext);
     const [formState, setState] = useState(formFields)
-    const [isSignIn, setSignIn] = useState(false)
+    const [isSignIn, setSignIn] = useState(true)
 
     const inputChanged = (e, id) => {
       const updatedForm = {...formState}
-      const updatedField = {...updatedForm[id]}
       updatedForm[id].value = e.target.value
       updatedForm[id].valid = isValidField(id, e.target.value, formState)
 
@@ -66,24 +60,26 @@ const Auth = (props) => {
     }
 
   return (
-    <Block>
+    <CenterForm>
         {authState.token && <Redirect to="/" />}
+
         <form >
-          {authState.error}
-
           {
-            authState.loading ? <Spinner /> :
-              formToArray(formFields).map(input => (
-              <Input {...input} key={input.id} handleChange={inputChanged}/>
-            ))
+            authState.loading ? <RedSpinner /> :
+            <>
+              {
+                formToArray(formFields).map(input => (
+                  <Input {...input} key={input.id} color="black" handleChange={inputChanged}/>
+                ))
+              }
+              <span>{authState.error}</span>
+              <Button disabled={!isValidForm(formState)} color="black" clicked={handleSignUp}>{isSignIn ? 'Sign In' : 'Sign Up'}</Button>
+            </>
           }
-
-          <Button disabled={!isValidForm(formState)} clicked={handleSignUp}>{isSignIn ? 'Sign In' : 'Sign Up'}</Button>
         </form>
 
       <Button clicked={() => setSignIn(!isSignIn)}>{`Switch to Sign ${isSignIn ? 'Up' :'In'}`}</Button>
-
-    </Block>
+    </CenterForm>
   )
 }
 

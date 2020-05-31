@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
-import Pair from '../components/Pair/Pair'
 import Aux from './../hoc/Aux'
 import withErrorHandler from './../hoc/withErrorHandler/withErrorHandler'
-import {EditControls} from './../components/EditControls/EditControls.js'
-import axios from "axios";
-import { Modal } from './../components/UI/Modal/Modal'
-import { Spinner } from './../components/UI/Spinner/Spinner'
-import { WordsToAdd } from './../components/WordsToAdd/WordsToAdd'
 import { ListsNavigationItems } from './../components/Navigation/ListsNavigationItems'
 import { Button } from "../components/UI/Button/Button";
 import EditList from "./EditList"
@@ -14,13 +8,13 @@ import Practice from "./Practice"
 import axiosWords from '../axios-words'
 import { Route, withRouter } from 'react-router-dom';
 import { AuthContext } from './../services/AuthContext'
+import { ListWrapper } from './elements/ListWrapper'
 
 class List extends Component {
 
   static contextType = AuthContext
 
   componentDidMount () {
-    const { authState } = this.context
     this.setState()
     this.loadData({loading: true})
   }
@@ -130,31 +124,29 @@ class List extends Component {
           id={this.state.id}
           action={this.state.action}
           />
-         <Button clicked={() => history.replace(`${this.state.id}/practice`)}>  Practice </Button>
+        <ListWrapper>
+          <Button clicked={() => history.replace(`${this.state.id}/practice`)}>  Practice </Button>
 
-         <Route
-           path={`${this.props.match.path}`}
-           exact
-           render={() => (
-             <div className="App">
-               <div className="App-header">
-                    <EditList
-                    id={this.state.id}
-                    pairs={this.state.pairs}
-                    updateList={this.updateList}
-                    setGap={this.setGap}
-                    selectGap={this.selectGap}
-                    onDelete={this.deleteHandler}
-                    updateValues={this.updateValues}
-                    updatePair={this.updatePair}
-                    params={this.state.params}
-                    />
-                </div>
-              </div>
-           )}/>
-          <Route
-            path={`${this.props.match.path}/:action`}
-            render={(props) => (<Practice pairs={this.state.pairs && this.state.pairs.length} />)} />
+           <Route
+             path={`${this.props.match.path}`}
+             exact
+             render={() => (
+                <EditList
+                id={this.state.id}
+                pairs={this.state.pairs}
+                updateList={this.updateList}
+                setGap={this.setGap}
+                selectGap={this.selectGap}
+                onDelete={this.deleteHandler}
+                updateValues={this.updateValues}
+                updatePair={this.updatePair}
+                params={this.state.params}
+                />
+             )}/>
+            <Route
+              path={`${this.props.match.path}/:action`}
+              render={(props) => (<Practice pairs={this.state.pairs && this.state.pairs.length} />)} />
+        </ListWrapper>
       </Aux>
 
     );

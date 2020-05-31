@@ -6,15 +6,18 @@ import styled from "styled-components";
 const Main = styled.main`
     color: white;
     background-color: #282c34;
-    width: 1200px;
+    max-width: 1200px;
     margin: 0 auto;
+    font-size: 16px;
+    padding: 0 30px 50px;
 `
+
 const layout = props => (
     <Aux>
-        <Toolbar />
-        <Main>
-             {props.children}
-        </Main>
+      <Toolbar />
+      <Main>
+           {props.children}
+      </Main>
     </Aux>
 )
 

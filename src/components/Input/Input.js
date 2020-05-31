@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components'
 
 const StyledInput = styled.input`
-    font-size: 22px;
     padding 10px;
     width: 100%;
     box-sizing: border-box;
@@ -28,7 +27,7 @@ const renderInput = (input) => {
   switch (input.elementType) {
     case 'input' :
     return <StyledInput
-      type={input.valueType}
+      {...input}
       onChange={e => input.handleChange(e, input.id)}
       {...input}/>
     case 'textarea' :

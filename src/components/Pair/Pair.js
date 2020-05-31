@@ -5,8 +5,6 @@ import PairButton from './PairButton'
 import { StyledPair } from '../../styles.js'
 import { TextareaAutosize } from '@material-ui/core';
 import GapContainer from './Gap/GapContainer'
-import axios from "axios";
-
 import deleteIcon from '../../assets/delete.svg'
 import checkmarkIcon from '../../assets/checkmark.svg'
 import translateIcon from '../../assets/subject.svg'
