@@ -58,6 +58,7 @@ class EditList extends Component {
   addPair = () => {
 
     const newPair = {left: "", right: "", type: "words", edit: true}
+
       axiosWords.post(`lists/${this.props.id}/pairs.json${this.state.params}`, newPair).then(res => {
           newPair.id = res.data.name
           const newState = [newPair, ...this.props.pairs];
@@ -93,14 +94,12 @@ class EditList extends Component {
     axiosWords.patch(`/lists/${this.props.id}.json${this.state.params}`, {pairs: newState})
   }
 
-  setPair = (pair) => {
-      this.props.updateList(this.props.pairs.map(item => item.id === pair.id ? pair : item))
-  }
+
 
   render() {
 
     const { history, pairs, loading, ...rest } = this.props
-
+    console.log('edit list render -> pairs', pairs)
     return (
         <Aux>
           <Modal show={this.state.wordsFetching} modalClosed={this.closeModal} isSameModal={this.state.fetchedWords.length}>

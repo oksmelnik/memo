@@ -109,8 +109,14 @@ class List extends Component {
       })
   }
 
-  updatePair = (id) => {
-    const pair = this.state.pairs.find(x => x.id === id)
+  updatePair = (id, pair) => {
+
+    const newPairs = this.state.pairs.map(item => item.id === id ? pair : item)
+
+    this.setState({
+      pairs: newPairs
+    })
+
     axiosWords.patch(`/lists/${this.state.id}/pairs/${id}.json${this.state.params}`, pair)
   }
 

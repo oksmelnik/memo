@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types'
 import Word from './Word/Word'
 import PairButton from './PairButton'
@@ -10,37 +10,44 @@ import checkmarkIcon from '../../assets/checkmark.svg'
 import translateIcon from '../../assets/subject.svg'
 import editIcon from '../../assets/edit.svg'
 
-const Pair = ({pair, selectGap, onDelete, updateValues, updatePair, setPair, getTranslation}) => {
+const Pair = ({pair, selectGap, onDelete, updateValues, updatePair, getTranslation}) => {
     const [edit, setEdit] = useState(pair.edit || false)
+
+    const [currentPair, setPair] = useState(pair)
+    const [pairType, setPairType] = useState(pair.type)
 
     const rightEdit = useRef(null);
 
     const toggleEdit = () => {
         if (edit) {
-          updatePair(pair.id)
+
+          updatePair(currentPair.id, { ...currentPair, edit: false})
         }
         setEdit(!edit)
-        pair.edit = !edit
     }
 
     const toggleTranslate =() => {
         setEdit(true)
 
-        getTranslation(pair.left).then(fetchedTranslation => {
-            updateValues(fetchedTranslation, pair.id, 'right')
+        getTranslation(currentPair.left).then(fetchedTranslation => {
+            updateValues(fetchedTranslation, currentPair.id, 'right')
             rightEdit.current.value = fetchedTranslation
         })
     }
 
-    const handleClick = (e) => {
-      setGap(pair.id)
+    const switchGap = (e) => {
+      if (pairType === "gap") {
+        setPairType("word")
+      } else {
+        setGap()
+      }
       e.preventDefault()
     }
 
     const showEditFields = (order) => {
         if (!edit) {
             return false
-        } else if (pair.type === 'gap' && order === 'right') {
+        } else if (currentPair.type === 'gap' && order === 'right') {
             return false
         } else {
             return true
@@ -48,16 +55,10 @@ const Pair = ({pair, selectGap, onDelete, updateValues, updatePair, setPair, get
     }
 
     const showOriginText = () => {
-        if (!edit && pair.type !== 'gap') {
+        if (!edit && currentPair.type !== 'gap') {
             return true
         }
     }
-
-    const handleWordChange = (e, order) => {
-        e.preventDefault()
-        updateValues(e.target.value.trim(), pair.id, order)
-    }
-
     const returnTextArea = (order) => {
         if (showEditFields(order)) {
             return (
@@ -66,7 +67,7 @@ const Pair = ({pair, selectGap, onDelete, updateValues, updatePair, setPair, get
                     placeholder="Empty"
                     ref={order === 'right' ? rightEdit : null}
                     defaultValue={order === 'left' ? pair.left : pair.right}
-                    onChange={(e) => handleWordChange(e, order)}
+                    onChange={(e) => wordUpdate(e, order)}
                 />
             )
         }
@@ -74,7 +75,7 @@ const Pair = ({pair, selectGap, onDelete, updateValues, updatePair, setPair, get
 
     const returnGap = (order, value) => {
         return (<GapContainer
-            pair={pair}
+            pair={currentPair}
             order={order}
             value={value}
             selectGap={selectGap}
@@ -82,20 +83,34 @@ const Pair = ({pair, selectGap, onDelete, updateValues, updatePair, setPair, get
         />)
     }
 
-    const setGap = (id) => {
-      const newPair = pair
+    const wordUpdate = (e, order) => {
+      e.preventDefault()
+      const newPair = {...currentPair}
+      newPair[order] = e.target.value
+
+      if (newPair.type === 'gap') {
+          newPair.gap.words = newPair.left.split(' ').filter(word => word.length > 0)
+      }
+
+      setPair(newPair)
+    }
+
+    const setGap = () => {
+      const newPair = currentPair
       newPair.type = newPair.type === 'gap'? 'words' : 'gap'
       newPair.gap = newPair.gap || {}
       newPair.gap.words = newPair.left.split(' ').filter(word => word.length > 0)
+      newPair.gap.selected = []
       setPair(newPair)
+      setPairType("gap")
   }
 
   return (
     <StyledPair>
       {edit &&
-        <button className='type-switcher' onClick={handleClick}
+        <button className='type-switcher' onClick={switchGap}
         >
-          {pair.type === 'gap' ? 'Word' : 'Gap'}
+          {currentPair.type === 'gap' ? 'Word' : 'Gap'}
         </button>
       }
       <div
@@ -104,17 +119,17 @@ const Pair = ({pair, selectGap, onDelete, updateValues, updatePair, setPair, get
 
         <div className='words-wrapper'>
           <Word
-            wordValue={showOriginText() && pair.left}
+            wordValue={showOriginText() && currentPair.left}
             toggleEdit={toggleEdit}
             textArea={returnTextArea('left')}
-            gap={pair.type === 'gap' && returnGap('left', pair.left)}
+            gap={pairType === 'gap' && returnGap('left', currentPair.left)}
           />
 
           <Word
-            wordValue={showOriginText() && pair.right}
+            wordValue={showOriginText() && currentPair.right}
             toggleEdit={toggleEdit}
             textArea={returnTextArea('right')}
-            gap={pair.type === 'gap' && returnGap('right', pair.right)}
+            gap={pairType === 'gap' && returnGap('right', currentPair.right)}
           />
 
           <PairButton

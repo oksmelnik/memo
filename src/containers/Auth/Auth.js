@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom'
 import { isValidForm, isValidField }  from './../../shared/utils'
 import { CenterForm } from './../../shared/elements/CenterForm'
 
+
 const formFields = {
     email: {
       elementType: 'input',

@@ -2,11 +2,12 @@ import React from 'react'
 import { StyledWord} from '../../../styles.js'
 
 function Word(props) {
+  console.log('word props gap', props)
   return (
     <StyledWord>
       {
           props.wordValue &&
-            <p onClick={props.toggleEdit}>{props.wordValue}</p>
+            <p onChange={props.toggleEdit}>{props.wordValue}</p>
       }
       <div>
         {props.textArea}

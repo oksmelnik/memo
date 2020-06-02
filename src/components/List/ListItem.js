@@ -25,7 +25,6 @@ const ListItem = (props) => {
 
   const handleEdit = (e) => {
     if (edit) {
-      props.onUpdate(inputValue.current.value)
       setEdit(false)
     } else {
       setEdit(true)
@@ -33,7 +32,7 @@ const ListItem = (props) => {
   }
   return (
     <StyledItem>
-      {edit && <Input ref={inputValue} defaultValue={name}/>}
+      {edit && <Input handleChange={props.onUpdate} defaultValue={name}/>}
 
       {!edit && <StyledDiv onClick={props.clicked}>{name}</StyledDiv>}
       <PairButton
