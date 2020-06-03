@@ -94,12 +94,8 @@ class EditList extends Component {
     axiosWords.patch(`/lists/${this.props.id}.json${this.state.params}`, {pairs: newState})
   }
 
-
-
   render() {
-
     const { history, pairs, loading, ...rest } = this.props
-    console.log('edit list render -> pairs', pairs)
     return (
         <Aux>
           <Modal show={this.state.wordsFetching} modalClosed={this.closeModal} isSameModal={this.state.fetchedWords.length}>

@@ -47,7 +47,6 @@ class List extends Component {
   updateValues = (newValue, id, key) => {
 
     this.setState(state => {
-
         const pairs = state.pairs.map(item => {
 
           if (item.id === id) {
@@ -66,40 +65,9 @@ class List extends Component {
   deleteHandler = (pairId) => {
     const pairIndex = this.getPairIndex(pairId)
     const pairs = [...this.state.pairs]
-
     pairs.splice(pairIndex, 1)
     this.setState({pairs: pairs})
-    axiosWords.patch(`/lists/${this.state.id}.json${this.state.params}`, { pairs: pairs })
-
-  }
-
-
-  selectGap = (e, pairId, index) => {
-    e.preventDefault()
-
-    const pairIndex = this.getPairIndex(pairId)
-
-    const pair = {
-      ...this.state.pairs[pairIndex]
-    }
-
-    if (pair.gap.selected.includes(index)) {
-      const selectedIndex = pair.gap.selected.indexOf(index)
-        pair.gap.selected.splice(selectedIndex, 1)
-    } else {
-      pair.gap.selected = [...pair.gap.selected,  index]
-    }
-
-    const pairs = [...this.state.pairs]
-    pairs[pairIndex] = pair
-
-    this.setState({pairs: pairs})
-  }
-
-  getPairIndex(id) {
-    return this.state.pairs.findIndex(p => {
-      return p.id === id
-    })
+    axiosWords.delete(`/lists/${this.state.id}/pairs/${pairId}.json${this.state.params}`)
   }
 
   updateList = (newState) => {
@@ -107,6 +75,12 @@ class List extends Component {
         pairs: newState,
         loading: false,
       })
+  }
+
+  getPairIndex(id) {
+    return this.state.pairs.findIndex(p => {
+      return p.id === id
+    })
   }
 
   updatePair = (id, pair) => {
@@ -142,7 +116,6 @@ class List extends Component {
                 pairs={this.state.pairs}
                 updateList={this.updateList}
                 setGap={this.setGap}
-                selectGap={this.selectGap}
                 onDelete={this.deleteHandler}
                 updateValues={this.updateValues}
                 updatePair={this.updatePair}

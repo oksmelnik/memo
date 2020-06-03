@@ -10,9 +10,8 @@ import checkmarkIcon from '../../assets/checkmark.svg'
 import translateIcon from '../../assets/subject.svg'
 import editIcon from '../../assets/edit.svg'
 
-const Pair = ({pair, selectGap, onDelete, updateValues, updatePair, getTranslation}) => {
+const Pair = ({pair, onDelete, updateValues, updatePair, getTranslation}) => {
     const [edit, setEdit] = useState(pair.edit || false)
-
     const [currentPair, setPair] = useState(pair)
     const [pairType, setPairType] = useState(pair.type)
 
@@ -20,7 +19,6 @@ const Pair = ({pair, selectGap, onDelete, updateValues, updatePair, getTranslati
 
     const toggleEdit = () => {
         if (edit) {
-
           updatePair(currentPair.id, { ...currentPair, edit: false})
         }
         setEdit(!edit)
@@ -36,18 +34,17 @@ const Pair = ({pair, selectGap, onDelete, updateValues, updatePair, getTranslati
     }
 
     const switchGap = (e) => {
-      if (pairType === "gap") {
-        setPairType("word")
-      } else {
-        setGap()
-      }
+      const newType = pairType === "gap" ? "word" : "gap"
+      const newPair = newType === "gap" ? getPairWithGaps() : { ...currentPair, type: newType }
+      setPair(newPair)
+      setPairType(newType)
       e.preventDefault()
     }
 
     const showEditFields = (order) => {
         if (!edit) {
             return false
-        } else if (currentPair.type === 'gap' && order === 'right') {
+        } else if (pairType === 'gap' && order === 'right') {
             return false
         } else {
             return true
@@ -95,14 +92,25 @@ const Pair = ({pair, selectGap, onDelete, updateValues, updatePair, getTranslati
       setPair(newPair)
     }
 
-    const setGap = () => {
-      const newPair = currentPair
-      newPair.type = newPair.type === 'gap'? 'words' : 'gap'
-      newPair.gap = newPair.gap || {}
-      newPair.gap.words = newPair.left.split(' ').filter(word => word.length > 0)
-      newPair.gap.selected = []
-      setPair(newPair)
-      setPairType("gap")
+    const getPairWithGaps = () => {
+      const pairWithGaps = currentPair
+      pairWithGaps.type = 'gap'
+      pairWithGaps.gap = pairWithGaps.gap || {}
+      pairWithGaps.gap.words = pairWithGaps.left.split(' ').filter(word => word.length > 0)
+      pairWithGaps.gap.selected = []
+      return pairWithGaps
+  }
+
+  const selectGap = (e, pairId, index) => {
+    e.preventDefault()
+    const newPair = {...currentPair}
+    if (newPair.gap.selected.includes(index)) {
+      const selectedIndex = newPair.gap.selected.indexOf(index)
+        newPair.gap.selected.splice(selectedIndex, 1)
+    } else {
+      newPair.gap.selected = [...newPair.gap.selected,  index]
+    }
+    setPair(newPair)
   }
 
   return (

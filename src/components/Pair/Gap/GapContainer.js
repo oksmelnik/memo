@@ -9,13 +9,13 @@ function GapContainer(props) {
 
       const gapWords = leftColumn && props.pair.gap ?
         props.pair.gap.words.map((item, index) => {
-          if (props.pair.gap.selected.includes(index)) {
+          if (props.pair.gap.selected && props.pair.gap.selected.includes(index)) {
             return '...'
           } else {
             return item
           }
-        }) :
-        props.pair.gap.selected.map(index => props.pair.gap.words[index])
+        }) : props.pair.gap.selected && props.pair.gap.selected.map(index => props.pair.gap.words[index])
+
 
       return gapWords ? gapWords : []
     }

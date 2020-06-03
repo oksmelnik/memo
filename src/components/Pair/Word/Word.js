@@ -2,7 +2,7 @@ import React from 'react'
 import { StyledWord} from '../../../styles.js'
 
 function Word(props) {
-  console.log('word props gap', props)
+
   return (
     <StyledWord>
       {
