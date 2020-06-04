@@ -28,7 +28,7 @@ const Pair = ({pair, onDelete, updateValues, updatePair, getTranslation}) => {
         setEdit(true)
 
         getTranslation(currentPair.left).then(fetchedTranslation => {
-            updateValues(fetchedTranslation, currentPair.id, 'right')
+            setPair({...currentPair, right: fetchedTranslation})
             rightEdit.current.value = fetchedTranslation
         })
     }
