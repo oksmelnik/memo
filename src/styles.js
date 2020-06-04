@@ -16,17 +16,7 @@ const StyledButton = styled.button`
       }
   }
 `
-const StyledGapsContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    div {
-        margin: 0.1em;
-        background: white;
-        color: black;
-        border-radius: 4px;
-        padding: 0.1em;
-    }
-`
+
 const StyledWord = styled.div`
     display: flex;
     flex-direction: column;
@@ -53,7 +43,6 @@ const StyledWord = styled.div`
 const StyledTranslation = styled.div`
     padding-left: 5px
 `
-
 
 const StyledPair = styled.div`
 
@@ -84,13 +73,12 @@ const StyledPair = styled.div`
     .words-wrapper {
         display: flex;
         align-items: center;
-        width: 20em;
+        width: 50em;
     }
 `
 
 export {
   StyledButton,
-  StyledGapsContainer,
   StyledWord,
   StyledPair,
   StyledTranslation
