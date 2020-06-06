@@ -15,6 +15,7 @@ const List = styled.div`
     flex-direction: column;
     justify-content: center;
     padding-bottom: 30px;
+    text-align: left;
 `
 
 const AllLists = (props) => {

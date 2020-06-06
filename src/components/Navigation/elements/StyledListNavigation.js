@@ -21,7 +21,6 @@ const StyledListNavigation = styled.ul`
         color: white;
         text-decoration: none;
         padding: 16px 5px 16px 0;
-        border-bottom: 4px solid transperent;
         box-sizing: border-box;
         display: block
     }

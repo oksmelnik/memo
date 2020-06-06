@@ -1,9 +1,33 @@
 import React from 'react'
-import { StyledWord} from '../../../styles.js'
 import GapContainer from '../Gap/GapContainer'
 import { TextareaAutosize } from '@material-ui/core';
+import styled from 'styled-components'
 
-const Word = ({pair, order, toggleEdit, selectGap, wordUpdate}) => {
+const StyledWord = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: ${({ width }) => width};
+    margin-left: 0.5em;
+
+    textarea {
+      width: 90%;
+      border-radius: 4px;
+      font-size: 0.6em;
+      padding: 1.2em 0.3em;
+    }
+
+    span {
+        background: white;
+        color: black;
+        margin: 0.1em;
+        padding: 0.1em;
+        border-radius: 4px;
+        font-size: 0.6em;
+    }
+`
+
+const Word = ({pair, order, toggleEdit, selectGap, wordUpdate, width = '50%'}) => {
   const {edit, type} = pair
 
   const wordValue = order === 'right' ? pair.right : pair.left
@@ -42,7 +66,7 @@ const Word = ({pair, order, toggleEdit, selectGap, wordUpdate}) => {
   }
 
   return (
-    <StyledWord>
+    <StyledWord width={width}>
       {
         (!edit && type === 'word')  &&
           <p onChange={toggleEdit}>{wordValue}</p>

@@ -64,7 +64,7 @@ class List extends Component {
     this.setState({
       pairs: newPairs
     })
-    
+
     axiosWords.patch(`/lists/${this.state.id}/pairs/${pair.id}.json${this.state.params}`, pair)
   }
 
@@ -78,6 +78,7 @@ class List extends Component {
           id={this.state.id}
           action={this.state.action}
           />
+
         <ListWrapper>
           <Button clicked={() => history.replace(`${this.state.id}/practice`)}>  Practice </Button>
 
@@ -97,7 +98,7 @@ class List extends Component {
              )}/>
             <Route
               path={`${this.props.match.path}/:action`}
-              render={(props) => (<Practice pairs={this.state.pairs} />)} />
+              render={(props) => (<Practice pairs={this.state.pairs} updateListState={this.updateListState}/>)} />
         </ListWrapper>
       </Aux>
 

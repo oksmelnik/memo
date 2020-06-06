@@ -1,22 +1,35 @@
-import React, { useState, useRef, useEffect } from 'react';
-import Word from '../Pair/Word/Word'
+import React from 'react';
+import styled from 'styled-components'
+import Word from './../Pair/Word/Word'
 
- const QuestionCard = (props) => {
-   const { pair } = props
-   const [ answered, setAnswered ] = useState(false)
-  return (
-    <div>
-    {!answered ?
-      <Word
-        pair={pair}
-        order='left'
-      /> :
-      <Word
-        pair={pair}
-        order='right'
-      />
-    }
-    </div>
+const WordWrapper = styled.div`
+  border: 1px solid white;
+  border-radius: 4px;
+  margin-top: 50px;
+  width: 200px;
+  text-alight: center;
+  padding: 30px;
+`
+
+ const QuestionCard = ({ pair, answerSeen }) => {
+   return (
+     <WordWrapper>
+     { answerSeen ?
+       <Word
+         key={pair.id + 'right'}
+         pair={pair}
+         order='right'
+         width='100%'
+       /> :
+
+       <Word
+         key={pair.id + 'left'}
+         pair={pair}
+         order='left'
+         width='100%'
+       />
+   }
+   </WordWrapper>
   )
 }
 
