@@ -10,10 +10,21 @@ import { WordsToAdd } from './../components/WordsToAdd/WordsToAdd'
 import axiosWords from '../axios-words'
 import { ListEdit} from './elements/ListEdit'
 
+const newPairToAdd = {
+  left: "",
+  right: "",
+  type: "word",
+  edit: true,
+  gap: {
+    words: [],
+    selected: []
+  }
+}
+
 class EditList extends Component {
   state = {
     wordsFetching: false,
-    fetchedWords: [],
+    fetchedWords: {},
     params: this.props.params
   }
 
@@ -48,7 +59,22 @@ class EditList extends Component {
           res.data.forEach(word => {
               this.getTranslation(word).then(translated => {
                 if (translated !== word) {
-                  this.setState({fetchedWords: [`${word} - ${translated}`, ...this.state.fetchedWords]})
+                    axiosWords.post(`lists/${this.props.id}/pairs.json${this.state.params}`, newPairToAdd).then(res => {
+                        const newPair = {
+                          ...newPairToAdd,
+                          ...{
+                            id: res.data.name,
+                            left: word,
+                            right: translated,
+                            displayName: `${word} - ${translated}`,
+                            edit: false
+                          },
+                        }
+                        const { fetchedWords } = {...this.state}
+                        const newState = fetchedWords
+                        newState[newPair.id] = newPair
+                        this.setState({fetchedWords: newState})
+                    })
                 }
               })
           })
@@ -57,13 +83,11 @@ class EditList extends Component {
 
   addPair = () => {
 
-    const newPair = {left: "", right: "", type: "words", edit: true}
-
-      axiosWords.post(`lists/${this.props.id}/pairs.json${this.state.params}`, newPair).then(res => {
-          newPair.id = res.data.name
-          const newState = [newPair, ...this.props.pairs];
-          this.props.updateList(newState);
-      })
+    axiosWords.post(`lists/${this.props.id}/pairs.json${this.state.params}`, newPairToAdd).then(res => {
+        const newPair  = { id: res.data.name, newPairToAdd }
+        const newState = {[newPair.id]: newPair, ...this.props.pairs};
+        this.props.updateList(newState);
+    })
   }
 
   closeModal = () => {
@@ -71,24 +95,13 @@ class EditList extends Component {
   }
 
   addWordsToList = () => {
-    const newWords = this.state.fetchedWords.map(word => {
-      const pair = word.split('-')
-      return {
-        id: pair[0],
-        left: pair[0],
-        right: pair[1],
-        type: 'words',
-        gap: {
-          words: [],
-          selected: []
-        }
-      }
-    })
-    const newState = [...newWords, ...this.props.pairs]
+
+    const newState = {...this.state.fetchedWords, ...this.props.pairs}
     this.setState({
       wordsFetching: false,
-      fetchedWords: []
+      fetchedWords: {}
     })
+
 
     this.props.updateList(newState)
     axiosWords.patch(`/lists/${this.props.id}.json${this.state.params}`, {pairs: newState})
@@ -96,10 +109,12 @@ class EditList extends Component {
 
   render() {
     const { history, pairs, loading, ...rest } = this.props
+      console.log('render, fetched', this.state.fetchedWords)
     return (
         <Aux>
           <Modal show={this.state.wordsFetching} modalClosed={this.closeModal} isSameModal={this.state.fetchedWords.length}>
             <WordsToAdd
+
                 list={this.state.fetchedWords}
                 onOkClicked={this.addWordsToList}
                 onCancelClick={this.closeModal}
@@ -108,7 +123,7 @@ class EditList extends Component {
             <ListEdit>
               <EditControls onClick={(e) => this.handleWordsAdding(e)}/>
               { loading ? <Spinner /> :
-                 pairs.length > 0 ? pairs.map(pair => {
+                 pairs ? Object.values(pairs).map(pair => {
                   return <Pair
                     pair={pair}
                     key={pair.id}
