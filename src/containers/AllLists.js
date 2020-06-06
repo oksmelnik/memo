@@ -37,7 +37,7 @@ const AllLists = (props) => {
         setState({...newList, ...lists})
     }
 
-    const updateList = (input, id) => {
+    const updateListState = (input, id) => {
         const newLists = {...lists}
         newLists[id].name = input
         setState({...lists, ...newLists})
@@ -66,7 +66,7 @@ const AllLists = (props) => {
                         return (<ListItem
                             key={list.id}
                             list={list}
-                            onUpdate={(input) => updateList(input.target.value, list.id)}
+                            onUpdate={(input) => updateListState(input.target.value, list.id)}
                             onDelete={() => onDelete(index, list.id)}
                             clicked={() => postSelectedHandler(list.id)}
                         />)}

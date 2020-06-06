@@ -20,7 +20,7 @@ class List extends Component {
   }
 
   state = {
-    pairs: [],
+    pairs: {},
     loading: true,
     id: this.props.match.params.id,
     action: this.props.match.params.action,
@@ -36,7 +36,7 @@ class List extends Component {
 
       if (res.data) {
         const data = res.data.pairs && res.data.pairs
-        const list = data ? Object.values(data).flat() : []
+        const list = data ? data : {}
         this.setState({pairs: list, name: res.data.name, loading: false })
       }
     }).catch(err => {
@@ -44,54 +44,28 @@ class List extends Component {
     });
   }
 
-  updateValues = (newValue, id, key) => {
-
-    this.setState(state => {
-        const pairs = state.pairs.map(item => {
-
-          if (item.id === id) {
-            item[key] = newValue
-
-            if (item.type === 'gap') {
-                item.gap.words = item.left.split(' ').filter(word => word.length > 0)
-            }
-          }
-          return item
-        })
-        return pairs
-    })
-  }
-
   deleteHandler = (pairId) => {
-    const pairIndex = this.getPairIndex(pairId)
-    const pairs = [...this.state.pairs]
-    pairs.splice(pairIndex, 1)
-    this.setState({pairs: pairs})
+    const newPairs = { ...this.state.pairs }
+    delete newPairs[pairId]
+
+    this.setState({pairs: newPairs})
     axiosWords.delete(`/lists/${this.state.id}/pairs/${pairId}.json${this.state.params}`)
   }
 
-  updateList = (newState) => {
+  updateListState = (newState) => {
       this.setState({
         pairs: newState,
         loading: false,
       })
   }
 
-  getPairIndex(id) {
-    return this.state.pairs.findIndex(p => {
-      return p.id === id
-    })
-  }
-
-  updatePair = (id, pair) => {
-
-    const newPairs = this.state.pairs.map(item => item.id === id ? pair : item)
-
+  updatePair = (pair) => {
+    const newPairs = {...this.state.pairs, [pair.id]: pair}
     this.setState({
       pairs: newPairs
     })
-
-    axiosWords.patch(`/lists/${this.state.id}/pairs/${id}.json${this.state.params}`, pair)
+    
+    axiosWords.patch(`/lists/${this.state.id}/pairs/${pair.id}.json${this.state.params}`, pair)
   }
 
   render() {
@@ -112,19 +86,18 @@ class List extends Component {
              exact
              render={() => (
                 <EditList
-                id={this.state.id}
-                pairs={this.state.pairs}
-                updateList={this.updateList}
-                setGap={this.setGap}
-                onDelete={this.deleteHandler}
-                updateValues={this.updateValues}
-                updatePair={this.updatePair}
-                params={this.state.params}
+                  id={this.state.id}
+                  pairs={this.state.pairs}
+                  updateListState={this.updateListState}
+                  setGap={this.setGap}
+                  onDelete={this.deleteHandler}
+                  updatePair={this.updatePair}
+                  params={this.state.params}
                 />
              )}/>
             <Route
               path={`${this.props.match.path}/:action`}
-              render={(props) => (<Practice pairs={this.state.pairs && this.state.pairs.length} />)} />
+              render={(props) => (<Practice pairs={this.state.pairs} />)} />
         </ListWrapper>
       </Aux>
 
