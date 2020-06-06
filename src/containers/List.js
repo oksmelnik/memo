@@ -52,8 +52,7 @@ class List extends Component {
     axiosWords.delete(`/lists/${this.state.id}/pairs/${pairId}.json${this.state.params}`)
   }
 
-  updateList = (newState) => {
-  
+  updateListState = (newState) => {
       this.setState({
         pairs: newState,
         loading: false,
@@ -61,12 +60,11 @@ class List extends Component {
   }
 
   updatePair = (pair) => {
-
     const newPairs = {...this.state.pairs, [pair.id]: pair}
-
     this.setState({
       pairs: newPairs
     })
+    
     axiosWords.patch(`/lists/${this.state.id}/pairs/${pair.id}.json${this.state.params}`, pair)
   }
 
@@ -90,7 +88,7 @@ class List extends Component {
                 <EditList
                   id={this.state.id}
                   pairs={this.state.pairs}
-                  updateList={this.updateList}
+                  updateListState={this.updateListState}
                   setGap={this.setGap}
                   onDelete={this.deleteHandler}
                   updatePair={this.updatePair}

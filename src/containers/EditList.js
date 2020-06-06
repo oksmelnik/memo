@@ -25,6 +25,7 @@ class EditList extends Component {
   state = {
     wordsFetching: false,
     fetchedWords: {},
+    wordsToAdd: 0,
     params: this.props.params
   }
 
@@ -73,7 +74,7 @@ class EditList extends Component {
                         const { fetchedWords } = {...this.state}
                         const newState = fetchedWords
                         newState[newPair.id] = newPair
-                        this.setState({fetchedWords: newState})
+                        this.setState({fetchedWords: newState, wordsToAdd: (this.state.wordsToAdd + 1)})
                     })
                 }
               })
@@ -84,9 +85,9 @@ class EditList extends Component {
   addPair = () => {
 
     axiosWords.post(`lists/${this.props.id}/pairs.json${this.state.params}`, newPairToAdd).then(res => {
-        const newPair  = { id: res.data.name, newPairToAdd }
+        const newPair  = { id: res.data.name, ...newPairToAdd }
         const newState = {[newPair.id]: newPair, ...this.props.pairs};
-        this.props.updateList(newState);
+        this.props.updateListState(newState);
     })
   }
 
@@ -97,24 +98,25 @@ class EditList extends Component {
   addWordsToList = () => {
 
     const newState = {...this.state.fetchedWords, ...this.props.pairs}
+
     this.setState({
       wordsFetching: false,
-      fetchedWords: {}
+      fetchedWords: {},
+      wordsToAdd: 0
     })
 
-
-    this.props.updateList(newState)
+    this.props.updateListState(newState)
     axiosWords.patch(`/lists/${this.props.id}.json${this.state.params}`, {pairs: newState})
   }
 
   render() {
     const { history, pairs, loading, ...rest } = this.props
-      console.log('render, fetched', this.state.fetchedWords)
+
     return (
         <Aux>
-          <Modal show={this.state.wordsFetching} modalClosed={this.closeModal} isSameModal={this.state.fetchedWords.length}>
+          <Modal show={this.state.wordsFetching}  isSameModal={this.state.wordsToAdd} modalClosed={this.closeModal}>
             <WordsToAdd
-
+                wordsToAdd={this.state.wordsToAdd}
                 list={this.state.fetchedWords}
                 onOkClicked={this.addWordsToList}
                 onCancelClick={this.closeModal}
