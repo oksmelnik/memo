@@ -20,12 +20,12 @@ const Practice = ({ pairs, history, updateListState }) => {
 
   useEffect(() => {
     setAnswerSeen(false)
+    updateListState(pairsState)
 
     if (pairsArray.length > 0) {
       setCurrentPair(pairsArray[0])
     } else {
-      updateListState(pairsState)
-      history.push('/')
+      history.replace('/lists')
     }
   }, [pairsArray])
 

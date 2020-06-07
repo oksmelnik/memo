@@ -9,6 +9,9 @@ import deleteIcon from '../../assets/delete.svg'
 import checkmarkIcon from '../../assets/checkmark.svg'
 import translateIcon from '../../assets/subject.svg'
 import editIcon from '../../assets/edit.svg'
+import questionIcon from '../../assets/question.svg'
+import { StyledIcon } from '../../styles.js'
+
 
 const Pair = ({pair, onDelete, updatePair, getTranslation}) => {
     const [edit, setEdit] = useState(pair.edit || false)
@@ -38,7 +41,6 @@ const Pair = ({pair, onDelete, updatePair, getTranslation}) => {
       setPairType(newType)
       e.preventDefault()
     }
-
 
     const wordUpdate = (e, order) => {
       e.preventDefault()
@@ -124,6 +126,10 @@ const Pair = ({pair, onDelete, updatePair, getTranslation}) => {
           icon={deleteIcon}
           alt='delete'
         />
+
+        {
+          !currentPair.answered && <StyledIcon src={questionIcon} width="1.3em"/>
+        }
 
       </div>
     </StyledPair>

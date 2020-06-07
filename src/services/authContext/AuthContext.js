@@ -58,9 +58,10 @@ function AuthProvider(props) {
         }
     };
 
-    return (<AuthContext.Provider value={{ authState, signUp, logOut, authCheckState }}>
-      {props.children}
-    </AuthContext.Provider>)
+    return (
+      <AuthContext.Provider value={{ authState, signUp, logOut, authCheckState }}>
+        {props.children}
+      </AuthContext.Provider>)
 }
 
 export { AuthContext, AuthProvider}

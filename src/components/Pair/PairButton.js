@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyledButton } from '../../styles.js'
+import { StyledIcon } from '../../styles.js'
 
 function PairButton(props) {
 
@@ -8,7 +9,7 @@ function PairButton(props) {
       e.preventDefault()
       props.callback(e)
     }}>
-      <img src={props.icon} alt={props.alt}/>
+      <StyledIcon src={props.icon} alt={props.alt}/>
     </StyledButton>
   )
 }

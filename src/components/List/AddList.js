@@ -6,7 +6,7 @@ import checkmarkIcon from '../../assets/checkmark.svg'
 import addIcon from '../../assets/plus.svg'
 import axiosWords from '../../axios-words'
 import styled from 'styled-components'
-import { AuthContext } from './../../services/AuthContext'
+import { AuthContext } from './../../services/authContext/AuthContext'
 
 const StyledForm = styled.div`
     display: flex;

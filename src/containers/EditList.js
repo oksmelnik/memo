@@ -111,6 +111,7 @@ class EditList extends Component {
 
   render() {
     const { history, pairs, loading, ...rest } = this.props
+    console.log(pairs)
 
     return (
         <Aux>

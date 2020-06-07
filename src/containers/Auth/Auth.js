@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import Input from "./../../components/Input/Input"
 import { Button } from "./../../components/UI/Button/Button"
-import { AuthContext } from './../../services/AuthContext'
+import { AuthContext } from './../../services/authContext/AuthContext'
 import { RedSpinner } from "./../../components/UI/Spinner/RedSpinner"
 import { Redirect } from 'react-router-dom'
 import { isValidForm, isValidField }  from './../../shared/utils'

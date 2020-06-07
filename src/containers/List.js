@@ -7,12 +7,12 @@ import EditList from "./EditList"
 import Practice from "./Practice"
 import axiosWords from '../axios-words'
 import { Route, withRouter } from 'react-router-dom';
-import { AuthContext } from './../services/AuthContext'
+
+//import { ListsContext } from './services/ListsContext/ListsContext'
 import { ListWrapper } from './elements/ListWrapper'
 
 class List extends Component {
 
-  static contextType = AuthContext
 
   componentDidMount () {
     this.setState()
@@ -24,7 +24,7 @@ class List extends Component {
     loading: true,
     id: this.props.match.params.id,
     action: this.props.match.params.action,
-    params: `?auth=${this.context.authState.token}`
+    params: `?auth=${this.props.token}`
   }
 
   componentWillUnmount() {
@@ -53,6 +53,7 @@ class List extends Component {
   }
 
   updateListState = (newState) => {
+
       this.setState({
         pairs: newState,
         loading: false,
@@ -82,6 +83,7 @@ class List extends Component {
         <ListWrapper>
           <Button clicked={() => history.replace(`${this.state.id}/practice`)}>  Practice </Button>
 
+
            <Route
              path={`${this.props.match.path}`}
              exact
@@ -105,6 +107,8 @@ class List extends Component {
     );
   }
 }
-
+// <Button clicked={() => this.updateListState(Object.values(this.state.pairs).map(item => {
+//   return {...item, answered: false}
+// }))}>  Renew </Button>
 
 export default withErrorHandler(withRouter(List), axiosWords);

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import axios from 'axios'
 import axiosWords from './axios-words'
-import { AuthContext } from './services/AuthContext'
+import { AuthContext } from './services/authContext/AuthContext'
 
 const  addList = async (name) => {
   return Promise((resolve, reject) => {

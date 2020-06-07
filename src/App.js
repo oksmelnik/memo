@@ -3,13 +3,14 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import AllLists from './containers/AllLists'
 import Logout  from './containers/Auth/Logout'
 import Layout from './hoc/Layout'
-import { AuthContext } from './services/AuthContext'
+import { AuthContext } from './services/authContext/AuthContext'
+import { withListsFromProps } from './services/listsContext'
 import asyncComponent from './hoc/asyncComponent'
 
 const asyncNewList = asyncComponent(() => {
   return import('./components/List/AddList')
 })
-const asyncList = asyncComponent(() => {
+const AsyncList = asyncComponent(() => {
   return import('./containers/List')
 })
 
@@ -40,7 +41,7 @@ class App extends Component {
           <Route path="/auth" exact component={asyncAuth} />
           <Route path="/logout" component={Logout} />
           <Route path="/lists" exact component={AllLists} />
-          <Route path="/lists/:id" component={asyncList} />
+          <Route path="/lists/:id" component={() => <AsyncList token={authState.token}/>} />
           <Route path="/new-list" component={asyncNewList} />
           <Route path="/profile" component={asyncProfile} />
           <Route path="/" exact component={AllLists} />
@@ -58,13 +59,13 @@ class App extends Component {
     }
 
     return (
-      <BrowserRouter>
-        <Layout>
-          {routes}
-        </Layout>
-      </BrowserRouter>
+        <BrowserRouter>
+          <Layout>
+            {routes}
+          </Layout>
+        </BrowserRouter>
     );
   }
 }
 
-export default App;
+export default withListsFromProps(App);

@@ -4,17 +4,17 @@ const StyledButton = styled.button`
   background: inherit;
   border: none;
 
-  img {
-      width: 2em;
-      border-radius: 4px;
-      margin: 0.2rem;
-      padding: 0.2em;
-      color: white;
-
-      :hover {
-          cursor: pointer;
-      }
+  :hover {
+      cursor: pointer;
   }
+`
+
+const StyledIcon = styled.img`
+  width: ${({ width}) => width || '2em'};
+  border-radius: 4px;
+  margin: 0.2rem;
+  padding: 0.2em;
+  color: white;
 `
 
 const StyledTranslation = styled.div`
@@ -57,5 +57,6 @@ const StyledPair = styled.div`
 export {
   StyledButton,
   StyledPair,
-  StyledTranslation
+  StyledTranslation,
+  StyledIcon
 };
