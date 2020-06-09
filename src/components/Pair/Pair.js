@@ -11,33 +11,37 @@ import translateIcon from '../../assets/subject.svg'
 import editIcon from '../../assets/edit.svg'
 import questionIcon from '../../assets/question.svg'
 import { StyledIcon } from '../../styles.js'
+import { useList } from './../../services/listsContext'
 
 
-const Pair = ({pair, onDelete, updatePair, getTranslation}) => {
+const Pair = ({ pair, listId, getTranslation }) => {
     const [edit, setEdit] = useState(pair.edit || false)
-    const [currentPair, setPair] = useState(pair)
+    const [currentPair, setCurrentPair] = useState(pair)
     const [pairType, setPairType] = useState(pair.type)
+    const [ , , updatePair, , , deletePair ] = useList(listId)
 
+console.log('currentPair', currentPair)
     const toggleEdit = () => {
-
+console.log('toggleEdit')
       if (edit) {
         updatePair({ ...currentPair, edit: !edit})
       }
-      setPair({ ...currentPair, edit: !edit})
+
+      setCurrentPair({ ...currentPair, edit: !edit})
       setEdit(!edit)
     }
 
     const toggleTranslate =() => {
         setEdit(true)
         getTranslation(currentPair.left).then(fetchedTranslation => {
-            setPair({...currentPair, right: fetchedTranslation})
+            setCurrentPair({...currentPair, right: fetchedTranslation})
         })
     }
 
     const switchGap = (e) => {
       const newType = pairType === "gap" ? "word" : "gap"
       const newPair = newType === "gap" ? getPairWithGaps() : { ...currentPair, type: newType }
-      setPair(newPair)
+      setCurrentPair(newPair)
       setPairType(newType)
       e.preventDefault()
     }
@@ -51,7 +55,7 @@ const Pair = ({pair, onDelete, updatePair, getTranslation}) => {
           newPair.gap.words = newPair.left.split(' ').filter(word => word.length > 0)
       }
 
-      setPair(newPair)
+      setCurrentPair(newPair)
     }
 
     const getPairWithGaps = () => {
@@ -72,7 +76,7 @@ const Pair = ({pair, onDelete, updatePair, getTranslation}) => {
     } else {
       newPair.gap.selected = [...newPair.gap.selected,  index]
     }
-    setPair(newPair)
+    setCurrentPair(newPair)
   }
 
   return (
@@ -122,7 +126,7 @@ const Pair = ({pair, onDelete, updatePair, getTranslation}) => {
          </div>
 
         <PairButton
-          callback={() => onDelete(pair.id)}
+          callback={() => deletePair(pair.id)}
           icon={deleteIcon}
           alt='delete'
         />

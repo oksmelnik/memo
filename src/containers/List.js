@@ -7,106 +7,80 @@ import EditList from "./EditList"
 import Practice from "./Practice"
 import axiosWords from '../axios-words'
 import { Route, withRouter } from 'react-router-dom';
-
-//import { ListsContext } from './services/ListsContext/ListsContext'
+import { useList } from './../services/listsContext'
 import { ListWrapper } from './elements/ListWrapper'
 
-class List extends Component {
+const List = (props) => {
+    const { history, token, match } = props
+    const { params: { id, action }, path } = match
+    const [ list, pairs ] = useList(id)
+
+    console.log('List', list)
 
 
-  componentDidMount () {
-    this.setState()
-    this.loadData({loading: true})
-  }
 
-  state = {
-    pairs: {},
-    loading: true,
-    id: this.props.match.params.id,
-    action: this.props.match.params.action,
-    params: `?auth=${this.props.token}`
-  }
+  // deleteHandler = (pairId) => {
+  //   const newPairs = { ...this.state.pairs }
+  //   delete newPairs[pairId]
+  //
+  //   this.setState({pairs: newPairs})
+  //   axiosWords.delete(`/lists/${this.state.id}/pairs/${pairId}.json${this.state.params}`)
+  // }
+  //
+  // updateListState = (newState) => {
+  //
+  //     this.setState({
+  //       pairs: newState,
+  //       loading: false,
+  //     })
+  // }
+  //
+  // updatePair = (pair) => {
+  //   const newPairs = {...this.state.pairs, [pair.id]: pair}
+  //   this.setState({
+  //     pairs: newPairs
+  //   })
+  //
+  //   axiosWords.patch(`/lists/${this.state.id}/pairs/${pair.id}.json${this.state.params}`, pair)
+  // }
 
-  componentWillUnmount() {
-    axiosWords.patch(`/lists/${this.state.id}.json${this.state.params}`, { pairs: this.state.pairs })
-  }
-
-  loadData = () => {
-    axiosWords.get(`lists/${this.state.id}.json${this.state.params}`).then(res => {
-
-      if (res.data) {
-        const data = res.data.pairs && res.data.pairs
-        const list = data ? data : {}
-        this.setState({pairs: list, name: res.data.name, loading: false })
-      }
-    }).catch(err => {
-      this.setState({loading: false});
-    });
-  }
-
-  deleteHandler = (pairId) => {
-    const newPairs = { ...this.state.pairs }
-    delete newPairs[pairId]
-
-    this.setState({pairs: newPairs})
-    axiosWords.delete(`/lists/${this.state.id}/pairs/${pairId}.json${this.state.params}`)
-  }
-
-  updateListState = (newState) => {
-
-      this.setState({
-        pairs: newState,
-        loading: false,
-      })
-  }
-
-  updatePair = (pair) => {
-    const newPairs = {...this.state.pairs, [pair.id]: pair}
-    this.setState({
-      pairs: newPairs
-    })
-
-    axiosWords.patch(`/lists/${this.state.id}/pairs/${pair.id}.json${this.state.params}`, pair)
-  }
-
-  render() {
-    const { history } = this.props
 
     return (
       <Aux>
          <ListsNavigationItems
-          name={this.state.name}
-          id={this.state.id}
-          action={this.state.action}
+          name={list.name}
+          id={id}
+          action={action}
           />
 
         <ListWrapper>
-          <Button clicked={() => history.replace(`${this.state.id}/practice`)}>  Practice </Button>
-
+          <Button clicked={() => history.replace(`${id}/practice`)}>  Practice </Button>
 
            <Route
-             path={`${this.props.match.path}`}
+             path={`${path}`}
              exact
              render={() => (
                 <EditList
-                  id={this.state.id}
-                  pairs={this.state.pairs}
-                  updateListState={this.updateListState}
-                  setGap={this.setGap}
-                  onDelete={this.deleteHandler}
-                  updatePair={this.updatePair}
-                  params={this.state.params}
+                  id={id}
+                  pairs={pairs}
+                  // updateListState={this.updateListState}
+                  // onDelete={this.deleteHandler}
+                  // updatePair={this.updatePair}
+                  params={match.params}
                 />
              )}/>
             <Route
-              path={`${this.props.match.path}/:action`}
-              render={(props) => (<Practice pairs={this.state.pairs} updateListState={this.updateListState}/>)} />
+              path={`${path}/:action`}
+              render={(props) => (<Practice
+                pairs={pairs}
+                updateListState={this.updateListState}/>)} />
         </ListWrapper>
       </Aux>
 
     );
-  }
 }
+
+
 // <Button clicked={() => this.updateListState(Object.values(this.state.pairs).map(item => {
 //   return {...item, answered: false}
 // }))}>  Renew </Button>

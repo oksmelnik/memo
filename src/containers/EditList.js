@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+
+import React, { useState, useEffect, useContext } from 'react';
 import Pair from '../components/Pair/Pair'
 import Aux from './../hoc/Aux'
 import withErrorHandler from './../hoc/withErrorHandler/withErrorHandler'
@@ -9,136 +10,106 @@ import { Spinner } from './../components/UI/Spinner/Spinner'
 import { WordsToAdd } from './../components/WordsToAdd/WordsToAdd'
 import axiosWords from '../axios-words'
 import { ListEdit} from './elements/ListEdit'
+import { useList } from './../services/listsContext'
 
-const newPairToAdd = {
-  left: "",
-  right: "",
-  type: "word",
-  edit: true,
-  gap: {
-    words: [],
-    selected: []
-  }
-}
 
-class EditList extends Component {
-  state = {
-    wordsFetching: false,
-    fetchedWords: {},
-    wordsToAdd: 0,
-    params: this.props.params
-  }
 
-  handleWordsAdding(e) {
+const EditList = (props) => {
+  const [ wordsFetching, setWordsFetching ] = useState(false)
+  const [ fetchedWords, setFetchedWords ] = useState({})
+  const [ wordsToAdd, setWordsToAdd] = useState(0)
+  const { history, pairs, loading, id, params, ...rest } = props
+  const [ , , updatePair, addPair, addPairs, deletePair ] = useList(id)
+
+  const handleWordsAdding = (e) => {
     e.preventDefault()
     if (e.target.getAttribute('type') === 'addNew') {
-        this.addPair()
+        addPair()
     } else {
-      this.setState({
-        wordsFetching: true
-      })
-      this.fetchWords(e.target.getAttribute('type') === 'addOne' ? 1 : 10)
+      setWordsFetching(true)
+      fetchWords(e.target.getAttribute('type') === 'addOne' ? 1 : 10)
     }
   }
+  //
+   const getTranslation = (word) => {
+  //   return new Promise((resolve, reject) => {
+  //     axios.post(`https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200315T074819Z.860ff3441e541a2b.755ab0290b73192c988f313ed86169bd154d19d6&lang=en-ru&text=${word}`)
+  //       .then((res) =>  {
+  //         if (res.data.text) {
+  //           resolve(res.data.text[0])
+  //         } else {
+  //           reject(false)
+  //         }
+  //       })
+  //   })
+   }
+  //
+   const fetchWords = (number) => {
+    // axios.get(`https://random-word-api.herokuapp.com/word?number=${number}`)
+    //     .then((res) => {
+    //       res.data.forEach(word => {
+    //           getTranslation(word).then(translated => {
+    //             if (translated !== word) {
+    //                 axiosWords.post(`lists/${props.id}/pairs.json${params}`, newPairToAdd).then(res => {
+    //                     const newPair = {
+    //                       ...newPairToAdd,
+    //                       ...{
+    //                         id: res.data.name,
+    //                         left: word,
+    //                         right: translated,
+    //                         displayName: `${word} - ${translated}`,
+    //                         edit: false
+    //                       },
+    //                     }
+    //                     const { fetchedWords } = {...state}
+    //                     const newState = fetchedWords
+    //                     newState[newPair.id] = newPair
+    //                     setState({fetchedWords: newState, wordsToAdd: (wordsToAdd + 1)})
+    //                 })
+    //             }
+    //           })
+    //       })
+    //     })
+   }
 
-  getTranslation(word) {
-    return new Promise((resolve, reject) => {
-      axios.post(`https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200315T074819Z.860ff3441e541a2b.755ab0290b73192c988f313ed86169bd154d19d6&lang=en-ru&text=${word}`)
-        .then((res) =>  {
-          if (res.data.text) {
-            resolve(res.data.text[0])
-          } else {
-            reject(false)
-          }
-        })
-    })
+const closeModal = () => {
+    setWordsFetching(false)
+}
+
+const addWordsToList = () => {
+    addPairs(fetchedWords)
+    setWordsFetching(false)
+    setFetchedWords({})
+    setWordsToAdd(0)
   }
 
-  fetchWords = (number) => {
-    axios.get(`https://random-word-api.herokuapp.com/word?number=${number}`)
-        .then((res) => {
-          res.data.forEach(word => {
-              this.getTranslation(word).then(translated => {
-                if (translated !== word) {
-                    axiosWords.post(`lists/${this.props.id}/pairs.json${this.state.params}`, newPairToAdd).then(res => {
-                        const newPair = {
-                          ...newPairToAdd,
-                          ...{
-                            id: res.data.name,
-                            left: word,
-                            right: translated,
-                            displayName: `${word} - ${translated}`,
-                            edit: false
-                          },
-                        }
-                        const { fetchedWords } = {...this.state}
-                        const newState = fetchedWords
-                        newState[newPair.id] = newPair
-                        this.setState({fetchedWords: newState, wordsToAdd: (this.state.wordsToAdd + 1)})
-                    })
-                }
-              })
-          })
-        })
-  }
-
-  addPair = () => {
-
-    axiosWords.post(`lists/${this.props.id}/pairs.json${this.state.params}`, newPairToAdd).then(res => {
-        const newPair  = { id: res.data.name, ...newPairToAdd }
-        const newState = {[newPair.id]: newPair, ...this.props.pairs};
-        this.props.updateListState(newState);
-    })
-  }
-
-  closeModal = () => {
-    this.setState({wordsFetching: false})
-  }
-
-  addWordsToList = () => {
-
-    const newState = {...this.state.fetchedWords, ...this.props.pairs}
-
-    this.setState({
-      wordsFetching: false,
-      fetchedWords: {},
-      wordsToAdd: 0
-    })
-
-    this.props.updateListState(newState)
-    axiosWords.patch(`/lists/${this.props.id}.json${this.state.params}`, {pairs: newState})
-  }
-
-  render() {
-    const { history, pairs, loading, ...rest } = this.props
-    console.log(pairs)
 
     return (
         <Aux>
-          <Modal show={this.state.wordsFetching}  isSameModal={this.state.wordsToAdd} modalClosed={this.closeModal}>
+          <Modal show={wordsFetching}  isSameModal={wordsToAdd} modalClosed={closeModal}>
             <WordsToAdd
-                wordsToAdd={this.state.wordsToAdd}
-                list={this.state.fetchedWords}
-                onOkClicked={this.addWordsToList}
-                onCancelClick={this.closeModal}
+                wordsToAdd={wordsToAdd}
+                list={fetchedWords}
+                onOkClicked={addWordsToList}
+                onCancelClick={closeModal}
             />
           </Modal>
             <ListEdit>
-              <EditControls onClick={(e) => this.handleWordsAdding(e)}/>
+              <EditControls onClick={(e) => handleWordsAdding(e)}/>
               { loading ? <Spinner /> :
-                 pairs ? Object.values(pairs).map(pair => {
+                 pairs ? pairs.map(pair => {
                   return <Pair
                     pair={pair}
+                    listId={id}
                     key={pair.id}
-                    setPair={this.setPair}
-                    getTranslation={this.getTranslation}
+                    getTranslation={getTranslation}
                     {...rest}
                   />}) : 'Empty list'
               }
             </ListEdit>
         </Aux>
     );
-  }
+
 }
 
 

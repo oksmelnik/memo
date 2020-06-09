@@ -28,9 +28,10 @@ const StyledWord = styled.div`
 `
 
 const Word = ({pair, order, toggleEdit, selectGap, wordUpdate, width = '50%'}) => {
-  const {edit, type} = pair
+  const { edit, type } = pair
 
   const wordValue = order === 'right' ? pair.right : pair.left
+
 
   const returnGap = (order, value) => {
       return (<GapContainer
