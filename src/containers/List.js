@@ -15,36 +15,6 @@ const List = (props) => {
     const { params: { id, action }, path } = match
     const [ list, pairs ] = useList(id)
 
-    console.log('List', list)
-
-
-
-  // deleteHandler = (pairId) => {
-  //   const newPairs = { ...this.state.pairs }
-  //   delete newPairs[pairId]
-  //
-  //   this.setState({pairs: newPairs})
-  //   axiosWords.delete(`/lists/${this.state.id}/pairs/${pairId}.json${this.state.params}`)
-  // }
-  //
-  // updateListState = (newState) => {
-  //
-  //     this.setState({
-  //       pairs: newState,
-  //       loading: false,
-  //     })
-  // }
-  //
-  // updatePair = (pair) => {
-  //   const newPairs = {...this.state.pairs, [pair.id]: pair}
-  //   this.setState({
-  //     pairs: newPairs
-  //   })
-  //
-  //   axiosWords.patch(`/lists/${this.state.id}/pairs/${pair.id}.json${this.state.params}`, pair)
-  // }
-
-
     return (
       <Aux>
          <ListsNavigationItems

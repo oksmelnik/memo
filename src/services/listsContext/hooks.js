@@ -100,7 +100,21 @@ const useAddPair = (id, token) => {
 }
 
 const useAddPairs = (id, token) => {
+  const { lists, setLists } = useListsContext()
 
+  return (pairs = {}) => {
+    console.log(pairs)
+    if (pairs) {
+      const newListsState = {...lists}
+      const newListState = newListsState[id]
+      Object.values(pairs).forEach(pair => {
+        newListState.pairs[pair.id] = pair
+      })
+      console.log(newListsState)
+      setLists(newListsState)
+    }
+
+  }
 }
 const useDeletePair = (id, token) => {
   const { lists, setLists } = useListsContext()

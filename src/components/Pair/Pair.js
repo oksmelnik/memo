@@ -22,7 +22,7 @@ const Pair = ({ pair, listId, getTranslation }) => {
 
 console.log('currentPair', currentPair)
     const toggleEdit = () => {
-console.log('toggleEdit')
+
       if (edit) {
         updatePair({ ...currentPair, edit: !edit})
       }

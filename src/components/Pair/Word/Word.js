@@ -32,7 +32,6 @@ const Word = ({pair, order, toggleEdit, selectGap, wordUpdate, width = '50%'}) =
 
   const wordValue = order === 'right' ? pair.right : pair.left
 
-
   const returnGap = (order, value) => {
       return (<GapContainer
           pair={pair}
