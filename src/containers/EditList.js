@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect, useContext } from 'react';
+import React, { Component } from 'react';
 import Pair from '../components/Pair/Pair'
 import Aux from './../hoc/Aux'
 import withErrorHandler from './../hoc/withErrorHandler/withErrorHandler'
@@ -10,31 +9,39 @@ import { Spinner } from './../components/UI/Spinner/Spinner'
 import { WordsToAdd } from './../components/WordsToAdd/WordsToAdd'
 import axiosWords from '../axios-words'
 import { ListEdit} from './elements/ListEdit'
-import { useList } from './../services/listsContext'
-import { AuthContext } from './../services/authContext/AuthContext'
 
+const newPairToAdd = {
+  left: "",
+  right: "",
+  type: "word",
+  edit: true,
+  gap: {
+    words: [],
+    selected: []
+  }
+}
 
+class EditList extends Component {
+  state = {
+    wordsFetching: false,
+    fetchedWords: {},
+    wordsToAdd: 0,
+    token: this.props.token
+  }
 
-const EditList = (props) => {
-  const [ wordsFetching, setWordsFetching ] = useState(false)
-  const [ fetchedWords, setFetchedWords ] = useState({})
-  const [ wordsToAdd, setWordsToAdd] = useState(0)
-  const { history, pairs, loading, id, params, ...rest } = props
-   const [ , , updatePair, addPair, addPairs, deletePair ] = useList(id)
-   const { authState: {userId, token}} = useContext(AuthContext);
-
-console.log('EditList, fetchedWords', fetchedWords)
-  const handleWordsAdding = (e) => {
+  handleWordsAdding(e) {
     e.preventDefault()
     if (e.target.getAttribute('type') === 'addNew') {
-        addPair()
+        this.addPair()
     } else {
-      setWordsFetching(true)
-      fetchWords(e.target.getAttribute('type') === 'addOne' ? 1 : 10)
+      this.setState({
+        wordsFetching: true
+      })
+      this.fetchWords(e.target.getAttribute('type') === 'addOne' ? 1 : 10)
     }
   }
 
-   const getTranslation = (word) => {
+  getTranslation(word) {
     return new Promise((resolve, reject) => {
       axios.post(`https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200315T074819Z.860ff3441e541a2b.755ab0290b73192c988f313ed86169bd154d19d6&lang=en-ru&text=${word}`)
         .then((res) =>  {
@@ -45,84 +52,93 @@ console.log('EditList, fetchedWords', fetchedWords)
           }
         })
     })
-   }
-  //
-   const fetchWords = (number) => {
+  }
 
-    let newFetchedWords = []
-    axios.get(`https://random-word-api.herokuapp.com/word?number=${3}`)
+  fetchWords = (number) => {
+    axios.get(`https://random-word-api.herokuapp.com/word?number=${number}`)
         .then((res) => {
           res.data.forEach(word => {
-              getTranslation(word).then(translated => {
+              this.getTranslation(word).then(translated => {
                 if (translated !== word) {
-                  console.log('word', word)
-                    axiosWords.post(`lists/${props.id}/pairs.json?auth=${token}`, {}).then(res => {
+                    axiosWords.post(`lists/${this.props.id}/pairs.json?auth=${this.state.token}`, newPairToAdd).then(res => {
                         const newPair = {
+                          ...newPairToAdd,
+                          ...{
                             id: res.data.name,
                             left: word,
                             right: translated,
                             displayName: `${word} - ${translated}`,
-                            edit: false,
-                            type: 'word',
-                            gap: {
-                              words: [],
-                              selected: []
-                            }
+                            edit: false
+                          },
                         }
-
-                         newFetchedWords[newPair.id] = newPair
-                         console.log(newFetchedWords)
-
+                        const { fetchedWords } = {...this.state}
+                        const newState = fetchedWords
+                        newState[newPair.id] = newPair
+                        this.setState({fetchedWords: newState, wordsToAdd: (this.state.wordsToAdd + 1)})
                     })
                 }
               })
           })
         })
-consoel.log
-        setFetchedWords(newFetchedWords)
-
-   }
-
-const closeModal = () => {
-    setWordsFetching(false)
-}
-
-const addWordsToList = () => {
-    Object.values(fetchedWords).forEach(pair => {
-        updatePair(pair)
-    })
-    setWordsFetching(false)
-    setFetchedWords({})
-    setWordsToAdd(0)
   }
 
+  addPair = () => {
+
+    axiosWords.post(`lists/${this.props.id}/pairs.json?auth=${this.state.token}`, newPairToAdd).then(res => {
+        const newPair  = { id: res.data.name, ...newPairToAdd }
+        const newState = {[newPair.id]: newPair, ...this.props.pairs};
+        this.props.addPairsToList(newState);
+    })
+  }
+
+  closeModal = () => {
+    this.setState({wordsFetching: false})
+  }
+
+  addWordsToList = () => {
+
+    const newState = {...this.state.fetchedWords, ...this.props.pairs}
+
+    this.setState({
+      wordsFetching: false,
+      fetchedWords: {},
+      wordsToAdd: 0
+    })
+
+    this.props.addPairsToList(newState)
+    axiosWords.patch(`/lists/${this.props.id}.json?auth=${this.state.token}`, {pairs: newState})
+  }
+
+  render() {
+    const { history, pairs, loading, token, ...rest } = this.props
 
     return (
         <Aux>
-          <Modal show={wordsFetching}  isSameModal={wordsToAdd} modalClosed={closeModal}>
+          <Modal show={this.state.wordsFetching}  isSameModal={this.state.wordsToAdd} modalClosed={this.closeModal}>
             <WordsToAdd
-                wordsToAdd={wordsToAdd}
-                list={fetchedWords}
-                onOkClicked={addWordsToList}
-                onCancelClick={closeModal}
+                wordsToAdd={this.state.wordsToAdd}
+                list={this.state.fetchedWords}
+                onOkClicked={this.addWordsToList}
+                onCancelClick={this.closeModal}
             />
           </Modal>
             <ListEdit>
-              <EditControls onClick={(e) => handleWordsAdding(e)}/>
+              <EditControls onClick={(e) => this.handleWordsAdding(e)}/>
               { loading ? <Spinner /> :
-                 pairs ? pairs.map(pair => {
+                 pairs ? Object.values(pairs).map(pair => {
                   return <Pair
                     pair={pair}
-                    listId={id}
                     key={pair.id}
-                    getTranslation={getTranslation}
+                    listId={this.props.id}
+                    setPair={this.setPair}
+                    getTranslation={this.getTranslation}
                     {...rest}
                   />}) : 'Empty list'
               }
             </ListEdit>
         </Aux>
     );
-
+  }
 }
 
 

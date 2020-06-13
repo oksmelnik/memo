@@ -20,7 +20,7 @@ const Pair = ({ pair, listId, getTranslation }) => {
     const [pairType, setPairType] = useState(pair.type)
     const [ , , updatePair, , , deletePair ] = useList(listId)
 
-console.log('currentPair', currentPair)
+
     const toggleEdit = () => {
 
       if (edit) {
@@ -126,7 +126,7 @@ console.log('currentPair', currentPair)
          </div>
 
         <PairButton
-          callback={() => deletePair(pair.id)}
+          callback={() => deletePair(currentPair.id)}
           icon={deleteIcon}
           alt='delete'
         />

@@ -11,9 +11,9 @@ const WordWrapper = styled.div`
   padding: 30px;
 `
 
- const QuestionCard = ({ pair, answerSeen }) => {
+ const QuestionCard = ({ pair, answerSeen, onClick }) => {
    return (
-     <WordWrapper>
+     <WordWrapper onClick={onClick}>
      { answerSeen ?
        <Word
          key={pair.id + 'right'}

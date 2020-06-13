@@ -4,55 +4,68 @@ import withErrorHandler from './../hoc/withErrorHandler/withErrorHandler'
 import { ListsNavigationItems } from './../components/Navigation/ListsNavigationItems'
 import { Button } from "../components/UI/Button/Button";
 import EditList from "./EditList"
-import Practice from "./Practice"
+
 import axiosWords from '../axios-words'
 import { Route, withRouter } from 'react-router-dom';
-import { useList } from './../services/listsContext'
+import { useList, useLists } from './../services/listsContext'
 import { ListWrapper } from './elements/ListWrapper'
+
 
 const List = (props) => {
     const { history, token, match } = props
     const { params: { id, action }, path } = match
-    const [ list, pairs ] = useList(id)
+    const [ list, pairs, , , useAddPairs ] = useList(id)
+    const [ , , , , updateList ] = useLists()
+
+    const resetProgress = () => {
+      const newPairs = {}
+      Object.values(pairs).map(item => {
+        newPairs[item.id] = {...item, answered: false}
+      })
+      updateList({...list, pairs: newPairs })
+    }
+
+    const pairsToAnswer = pairs ? pairs.filter(pair => !pair.answered).length : 0
 
     return (
-      <Aux>
-         <ListsNavigationItems
-          name={list.name}
-          id={id}
-          action={action}
-          />
+      <>
+      {
+        list ?
+          <Aux>
+             <ListsNavigationItems
+              name={list.name}
+              id={id}
+              action={action}
+            />
 
-        <ListWrapper>
-          <Button clicked={() => history.replace(`${id}/practice`)}>  Practice </Button>
+            <ListWrapper>
+              <Button
+                clicked={() => history.push(`/lists/${id}/practice`)}
+              >
+                Practice ({pairsToAnswer} words)
+              </Button>
 
-           <Route
-             path={`${path}`}
-             exact
-             render={() => (
-                <EditList
-                  id={id}
-                  pairs={pairs}
-                  // updateListState={this.updateListState}
-                  // onDelete={this.deleteHandler}
-                  // updatePair={this.updatePair}
-                  params={match.params}
-                />
-             )}/>
-            <Route
-              path={`${path}/:action`}
-              render={(props) => (<Practice
-                pairs={pairs}
-                updateListState={this.updateListState}/>)} />
-        </ListWrapper>
-      </Aux>
+              <Button clicked={resetProgress}>  Reset Progress </Button>
 
+               <Route
+                 path={`${path}`}
+                 exact
+                 render={() => (
+                    <EditList
+                      id={id}
+                      pairs={pairs}
+                      addPairsToList={useAddPairs}
+                      token={token}
+                    />
+                 )}/>
+            </ListWrapper>
+          </Aux>
+    : <></>}
+    </>
     );
 }
 
 
-// <Button clicked={() => this.updateListState(Object.values(this.state.pairs).map(item => {
-//   return {...item, answered: false}
-// }))}>  Renew </Button>
+
 
 export default withErrorHandler(withRouter(List), axiosWords);

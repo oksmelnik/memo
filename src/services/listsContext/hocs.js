@@ -10,6 +10,7 @@ export function withListsFromProps(Component) {
     const { authState: { token, userId }} = useContext(AuthContext);
 
     useEffect(() => {
+
       if (token) {
         const params = `?auth=${token}&orderBy="userId"&equalTo="${userId}"`
         axiosWords.get(`lists.json${params}`).then(res => {
@@ -24,13 +25,12 @@ export function withListsFromProps(Component) {
 
 }, [userId, token])
 
-    const state = {
-      lists: lists,
-      setLists:setLists
-    }
-    console.log('state', state)
+
     return (
-      <ListsContext.Provider value={state}>
+      <ListsContext.Provider value={{
+        lists: lists,
+        setLists: setLists
+      }}>
         <Component {...props} />
       </ListsContext.Provider>
     );

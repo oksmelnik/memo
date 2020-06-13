@@ -41,7 +41,7 @@ function AuthProvider(props) {
       dispatch({type: actions.LOG_OUT})
     }
 
-    const authCheckState = () => {
+    const authCheckState = async () => {
         const token = localStorage.getItem('token');
 
         if (!token) {
