@@ -9,75 +9,41 @@ import deleteIcon from '../../assets/delete.svg'
 import checkmarkIcon from '../../assets/checkmark.svg'
 import translateIcon from '../../assets/subject.svg'
 import editIcon from '../../assets/edit.svg'
+import questionIcon from '../../assets/question.svg'
+import { StyledIcon } from '../../styles.js'
+import { useList } from './../../services/listsContext'
 
-const Pair = ({pair, onDelete, updateValues, updatePair, getTranslation}) => {
+
+const Pair = ({ pair, listId, getTranslation }) => {
     const [edit, setEdit] = useState(pair.edit || false)
-    const [currentPair, setPair] = useState(pair)
+    const [currentPair, setCurrentPair] = useState(pair)
     const [pairType, setPairType] = useState(pair.type)
+    const [ , , updatePair, , , deletePair ] = useList(listId)
 
-    const rightEdit = useRef(null);
 
     const toggleEdit = () => {
-        if (edit) {
-          updatePair(currentPair.id, { ...currentPair, edit: false})
-        }
-        setEdit(!edit)
+
+      if (edit) {
+        updatePair({ ...currentPair, edit: !edit})
+      }
+
+      setCurrentPair({ ...currentPair, edit: !edit})
+      setEdit(!edit)
     }
 
     const toggleTranslate =() => {
         setEdit(true)
-
         getTranslation(currentPair.left).then(fetchedTranslation => {
-            setPair({...currentPair, right: fetchedTranslation})
-            rightEdit.current.value = fetchedTranslation
+            setCurrentPair({...currentPair, right: fetchedTranslation})
         })
     }
 
     const switchGap = (e) => {
       const newType = pairType === "gap" ? "word" : "gap"
       const newPair = newType === "gap" ? getPairWithGaps() : { ...currentPair, type: newType }
-      setPair(newPair)
+      setCurrentPair(newPair)
       setPairType(newType)
       e.preventDefault()
-    }
-
-    const showEditFields = (order) => {
-        if (!edit) {
-            return false
-        } else if (pairType === 'gap' && order === 'right') {
-            return false
-        } else {
-            return true
-        }
-    }
-
-    const showOriginText = () => {
-        if (!edit && currentPair.type !== 'gap') {
-            return true
-        }
-    }
-    const returnTextArea = (order) => {
-        if (showEditFields(order)) {
-            return (
-                <TextareaAutosize
-                    aria-label="empty textarea"
-                    placeholder="Empty"
-                    ref={order === 'right' ? rightEdit : null}
-                    defaultValue={order === 'left' ? pair.left : pair.right}
-                    onChange={(e) => wordUpdate(e, order)}
-                />
-            )
-        }
-    }
-
-    const returnGap = (order, value) => {
-        return (<GapContainer
-            pair={currentPair}
-            order={order}
-            value={value}
-            selectGap={selectGap}
-            editMode={edit}
-        />)
     }
 
     const wordUpdate = (e, order) => {
@@ -89,7 +55,7 @@ const Pair = ({pair, onDelete, updateValues, updatePair, getTranslation}) => {
           newPair.gap.words = newPair.left.split(' ').filter(word => word.length > 0)
       }
 
-      setPair(newPair)
+      setCurrentPair(newPair)
     }
 
     const getPairWithGaps = () => {
@@ -110,7 +76,7 @@ const Pair = ({pair, onDelete, updateValues, updatePair, getTranslation}) => {
     } else {
       newPair.gap.selected = [...newPair.gap.selected,  index]
     }
-    setPair(newPair)
+    setCurrentPair(newPair)
   }
 
   return (
@@ -127,17 +93,21 @@ const Pair = ({pair, onDelete, updateValues, updatePair, getTranslation}) => {
 
         <div className='words-wrapper'>
           <Word
-            wordValue={showOriginText() && currentPair.left}
+            key={currentPair.id + 'left'}
+            pair={currentPair}
+            order='left'
             toggleEdit={toggleEdit}
-            textArea={returnTextArea('left')}
-            gap={pairType === 'gap' && returnGap('left', currentPair.left)}
+            selectGap={selectGap}
+            wordUpdate={wordUpdate}
           />
 
           <Word
-            wordValue={showOriginText() && currentPair.right}
+            key={currentPair.id + 'right'}
+            pair={currentPair}
+            order='right'
             toggleEdit={toggleEdit}
-            textArea={returnTextArea('right')}
-            gap={pairType === 'gap' && returnGap('right', currentPair.right)}
+            selectGap={selectGap}
+            wordUpdate={wordUpdate}
           />
 
           <PairButton
@@ -153,14 +123,17 @@ const Pair = ({pair, onDelete, updateValues, updatePair, getTranslation}) => {
               alt='translate'
             />
           }
-
          </div>
 
         <PairButton
-          callback={() => onDelete(pair.id)}
+          callback={() => deletePair(currentPair.id)}
           icon={deleteIcon}
           alt='delete'
         />
+
+        {
+          !currentPair.answered && <StyledIcon src={questionIcon} width="1.3em"/>
+        }
 
       </div>
     </StyledPair>

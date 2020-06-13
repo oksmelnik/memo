@@ -5,7 +5,7 @@ import { Button } from "./../components/UI/Button/Button"
 import Input from "./../components/Input/Input"
 import axiosWords from '../axios-words'
 import { isValidForm, isValidField }  from './../shared/utils'
-import { AuthContext } from './../services/AuthContext'
+import { AuthContext } from './../services/authContext/AuthContext'
 import { CenterForm } from './../shared/elements/CenterForm'
 
 const Profile = (props) => {

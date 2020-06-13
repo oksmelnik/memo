@@ -1,6 +1,6 @@
 import React,  { useContext } from 'react'
 import { NavLink} from 'react-router-dom'
-import { AuthContext } from './../../services/AuthContext'
+import { AuthContext } from './../../services/authContext/AuthContext'
 import { StyledNavItems } from './elements/StyledNavItems'
 
 export const NavigationItems = props => {

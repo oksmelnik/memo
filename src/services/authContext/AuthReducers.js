@@ -5,11 +5,11 @@ export const initialState = {
     userId: null,
     error: null,
     loading: false,
-    authRedirectPath: '/'
+    authRedirectPath: '/',
+
 };
 
 export function reducer (state = initialState, { type, payload }) {
-
   switch (type) {
     case actions.AUTH_START:
       return {...state, loading: true}

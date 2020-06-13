@@ -26,9 +26,8 @@ const StyledNavItems = styled.ul`
     }
 
     a:hover, a:active, a.active {
-        background-color: #0e086d;
-        border-bottom: 4px solid white;
-        color: white;
+        background-color: #ffd152;
+        color: #343233;
     }
 `
 

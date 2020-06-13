@@ -18,23 +18,31 @@ const StyledDiv = styled.div`
     width: 50%;
 `
 
-const ListItem = (props) => {
+const ListItem = ({ list, onUpdate, clicked, onDelete }) => {
     const [edit, setEdit] = useState(false)
-    const name = props.list.name
+    const [name, setName] = useState(list.name)
+
     const inputValue = useRef(null)
 
-  const handleEdit = (e) => {
-    if (edit) {
-      setEdit(false)
-    } else {
-      setEdit(true)
+    const handleEdit = (e) => {
+      if (edit) {
+        setEdit(false)
+        onUpdate(name)
+      } else {
+        setEdit(true)
+      }
     }
-  }
+
+    const handleChange = (input) => {
+      setName(input.target.value)
+    }
+
+
   return (
     <StyledItem>
-      {edit && <Input handleChange={props.onUpdate} defaultValue={name}/>}
+      {edit && <Input handleChange={handleChange} defaultValue={name}/>}
 
-      {!edit && <StyledDiv onClick={props.clicked}>{name}</StyledDiv>}
+      {!edit && <StyledDiv onClick={clicked}>{name}</StyledDiv>}
       <PairButton
           callback={handleEdit}
           icon={editIcon}
@@ -42,7 +50,7 @@ const ListItem = (props) => {
       />
 
       <PairButton
-          callback={props.onDelete}
+          callback={onDelete}
           icon={deleteIcon}
           alt='delete'
       />

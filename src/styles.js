@@ -4,42 +4,19 @@ const StyledButton = styled.button`
   background: inherit;
   border: none;
 
-  img {
-      width: 2em;
-      border-radius: 4px;
-      margin: 0.2rem;
-      padding: 0.2em;
-      color: white;
-
-      :hover {
-          cursor: pointer;
-      }
+  :hover {
+      cursor: pointer;
   }
 `
 
-const StyledWord = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    width: 50%;
-    margin-left: 0.5em;
-
-    textarea {
-      width: 90%;
-      border-radius: 4px;
-      font-size: 0.6em;
-      padding: 1.2em 0.3em;
-    }
-
-    span {
-        background: white;
-        color: black;
-        margin: 0.1em;
-        padding: 0.1em;
-        border-radius: 4px;
-        font-size: 0.6em;
-    }
+const StyledIcon = styled.img`
+  width: ${({ width}) => width || '2em'};
+  border-radius: 4px;
+  margin: 0.2rem;
+  padding: 0.2em;
+  color: white;
 `
+
 const StyledTranslation = styled.div`
     padding-left: 5px
 `
@@ -79,7 +56,7 @@ const StyledPair = styled.div`
 
 export {
   StyledButton,
-  StyledWord,
   StyledPair,
-  StyledTranslation
+  StyledTranslation,
+  StyledIcon
 };
