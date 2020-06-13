@@ -56,8 +56,10 @@ const useUpdateList = (id) => {
   const { authState: { token, userId }} = useAuthContext()
 
   return (list) =>  {
+    console.log('useUpdateList', list)
      setLists({...lists, [list.id]: list })
-     axiosWords.patch(`lists/${id}.json?auth=${token}`, list)
+
+     axiosWords.patch(`lists/${list.id}.json?auth=${token}`, list)
   }
 }
 
