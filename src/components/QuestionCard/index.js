@@ -5,7 +5,6 @@ import Word from './../Pair/Word/Word'
 const WordWrapper = styled.div`
   border: 1px solid white;
   border-radius: 4px;
-  margin-top: 50px;
   width: 200px;
   text-alight: center;
   padding: 30px;

@@ -11,10 +11,9 @@ import { AuthContext } from './../../services/authContext/AuthContext'
 const StyledForm = styled.div`
     display: flex;
     align-items: center;
-    color: white;
     padding: 20px 0;
     font-size: 20px;
-    border-top: solid white 2px;
+    border-top: solid #f0e1c9 2px;
 `
 const AddList = (props) => {
 
@@ -51,38 +50,35 @@ const AddList = (props) => {
 
     return (
         <StyledForm>
-
-            {!edit &&
-            <PairButton
-                    callback={() => setEdit(!edit)}
-                    icon={addIcon}
-                    alt='addIcon'
-                />
-
-            }
             Add new list
-            {
+            {!edit &&
+              <PairButton
+                callback={() => setEdit(!edit)}
+                icon={addIcon}
+                alt='addIcon'
+              />
+            }
+            {edit &&
                 <>
-                <Input
+               <Input
                     elementType='input'
                     type="text"
                     value={input}
                     handleChange={handleChange}
                 />
 
-                    <PairButton
-                        callback={saveChanges}
-                        icon={checkmarkIcon}
-                        alt='checkmark'
-                     />
-                    <PairButton
-                        callback={onDelete}
-                        icon={closeIcon}
-                        alt='delete'
-                    />
+                <PairButton
+                    callback={saveChanges}
+                    icon={checkmarkIcon}
+                    alt='checkmark'
+                 />
+                <PairButton
+                    callback={onDelete}
+                    icon={closeIcon}
+                    alt='delete'
+                />
                 </>
             }
-
         </StyledForm>
     )
 }

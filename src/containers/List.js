@@ -39,13 +39,21 @@ const List = (props) => {
             />
 
             <ListWrapper>
-              <Button
-                clicked={() => history.push(`/lists/${id}/practice`)}
-              >
-                Practice ({pairsToAnswer} words)
-              </Button>
+              <div>
+                <Button
+                  clicked={() => history.push(`/lists/${id}/practice`)}
+                  color="#78b0a0"
+                >
+                  Practice ({pairsToAnswer} words)
+                </Button>
 
-              <Button clicked={resetProgress}>  Reset Progress </Button>
+                <Button
+                  clicked={resetProgress}
+                  color="#78b0a0"
+                  >
+                    Reset Progress
+                </Button>
+              </div>
 
                <Route
                  path={`${path}`}

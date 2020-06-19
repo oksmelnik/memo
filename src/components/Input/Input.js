@@ -10,7 +10,7 @@ const StyledInput = styled.input`
     border-color: ${(props) => props.valid == false && "red"};
 
     :focus {
-        ${(props) => {return `border-color: ${props.valid == false ? "red" : "blue"}`}
+        ${(props) => {return `border-color: ${props.valid == false ? "red" : '#241e1c'}`}
     }
 `
 

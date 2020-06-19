@@ -6,7 +6,7 @@ const StyledToolbar = styled.header`
     position: fix;
     top: 0;
     left: 0;
-    background-color: white;
+    background-color: #efdab9;
     display: flex;
     justify-content: space-between;
     align-items: center;

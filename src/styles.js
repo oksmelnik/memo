@@ -10,11 +10,10 @@ const StyledButton = styled.button`
 `
 
 const StyledIcon = styled.img`
-  width: ${({ width}) => width || '2em'};
+  width: ${({ width}) => width || '1.5em'};
   border-radius: 4px;
   margin: 0.2rem;
   padding: 0.2em;
-  color: white;
 `
 
 const StyledTranslation = styled.div`
