@@ -1,12 +1,13 @@
 import React from 'react'
 import { StyledButtons } from './editStyles.js'
+import { Button } from "../UI/Button/Button";
 
 export const EditControls = ({onClick}) => {
   return (
       <StyledButtons>
-          <button key='addOne' type='addOne' onClick={onClick}>Add 1</button>
-          <button key='addTen' type='addTen' onClick={onClick}>Add 10</button>
-          <button key='addNew' type='addNew' onClick={onClick}>Add new</button>
+          <Button key='addOne' type='addOne' clicked={onClick}>Add 1</Button>
+          <Button key='addTen' type='addTen' clicked={onClick}>Add 10</Button>
+          <Button key='addNew' type='addNew' clicked={onClick}>Add new</Button>
       </StyledButtons>
   )
 }

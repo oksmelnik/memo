@@ -18,7 +18,6 @@ const StyledListNavigation = styled.ul`
 
     a {
         height: 100%;
-        color: white;
         text-decoration: none;
         padding: 16px 5px 16px 0;
         box-sizing: border-box;

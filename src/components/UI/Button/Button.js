@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const StyledButton = styled.button`
     background-color: transparent;
     border: none;
-    color: white;
+    color: #ffd152;
     outline: none;
     cursor: pointer;
     font: inherit;

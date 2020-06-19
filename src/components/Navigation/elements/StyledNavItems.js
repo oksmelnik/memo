@@ -17,7 +17,7 @@ const StyledNavItems = styled.ul`
 
     a {
         height: 100%;
-        color: black;
+        color: #343233;
         text-decoration: none;
         padding: 16px 10px;
         border-bottom: 4px solid transperent;
@@ -26,7 +26,6 @@ const StyledNavItems = styled.ul`
     }
 
     a:hover, a:active, a.active {
-        background-color: #ffd152;
         color: #343233;
     }
 `

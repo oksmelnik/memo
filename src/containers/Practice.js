@@ -10,7 +10,7 @@ const PracticeWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px auto;
+  margin: auto;
 `
 const Practice = (props) => {
   const { history, token, match } = props

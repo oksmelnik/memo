@@ -13,7 +13,6 @@ const StyledItem = styled.div`
 const StyledDiv = styled.div`
     font-size: 22px;
     padding 10px;
-    color: white;
     text-decoration: none;
     width: 50%;
 `
