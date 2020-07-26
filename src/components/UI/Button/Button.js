@@ -17,5 +17,11 @@ const StyledButton = styled.button`
 `
 
 export const Button = props => (
-    <StyledButton onClick={props.clicked} color={props.color}>{props.children}</StyledButton>
+    <StyledButton
+      onClick={props.clicked}
+      key={props.key}
+      type={props.type}
+      color={props.color}>
+        {props.children}
+      </StyledButton>
 )
